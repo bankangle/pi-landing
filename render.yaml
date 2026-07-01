@@ -1,0 +1,27 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Render reads this automatically when you create a service from this repo.
+services:
+  - type: web
+    name: pi-retail-landing
+    runtime: node
+    plan: free # bump to "starter" to avoid the free-tier cold-start spin-down
+    region: frankfurt # closest Render region for RU/EU visitors
+    buildCommand: npm ci && npm run build
+    # ORIGIN is required by adapter-node for the form's CSRF check.
+    # RENDER_EXTERNAL_URL is injected by Render and equals your live URL.
+    startCommand: ORIGIN=$RENDER_EXTERNAL_URL node build
+    autoDeploy: true # redeploys on every push to the connected branch
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Secrets — set these in the Render dashboard (sync:false = not stored in repo).
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      # Optional, for later:
+      - key: MAX_BOT_TOKEN
+        sync: false
+      - key: MAX_CHAT_ID
+        sync: false

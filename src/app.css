@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+/* ------- Design tokens (Tailwind v4 @theme) ------- */
+@theme {
+	--color-ink: #0b1120;
+	--color-ink-soft: #0f172a;
+	--color-accent: #38bdf8;
+	--color-accent-strong: #0ea5e9;
+	--font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+	--animate-float: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-14px); }
+}
+
+/* Fonts loaded locally-ish via system fallback; swap-in Inter if available */
+html {
+	font-family: var(--font-sans);
+}
+
+/* Reveal-on-scroll: hand-coded, no library */
+.reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: opacity, transform;
+}
+.reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+	.animate-float {
+		animation: none;
+	}
+}
+
+/* Subtle grid/glow background helpers */
+.bg-grid {
+	background-image:
+		linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+	background-size: 48px 48px;
+}
