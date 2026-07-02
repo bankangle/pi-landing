@@ -16,15 +16,198 @@
 	50% { transform: translateY(-14px); }
 }
 
+/* ------- Hero background ambience (hand-coded, GPU-friendly) ------- */
+/* Blob A keeps its -50% X centering while drifting/pulsing. */
+@keyframes blob-a {
+	0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 0.55; }
+	50% { transform: translate(-50%, 55px) scale(1.18); opacity: 0.85; }
+}
+@keyframes blob-b {
+	0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+	33% { transform: translate(-45px, 45px) scale(1.12); opacity: 0.85; }
+	66% { transform: translate(35px, -25px) scale(0.92); opacity: 0.5; }
+}
+@keyframes blob-c {
+	0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.35; }
+	50% { transform: translate(55px, -45px) scale(1.2); opacity: 0.65; }
+}
+@keyframes grid-pan {
+	from { background-position: 0 0; }
+	to { background-position: 48px 48px; }
+}
+@keyframes hint-bounce {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(6px); }
+}
+.hint-bounce { animation: hint-bounce 1.8s ease-in-out infinite; }
+
+.anim-blob-a { animation: blob-a 16s ease-in-out infinite; will-change: transform, opacity; }
+.anim-blob-b { animation: blob-b 22s ease-in-out infinite; will-change: transform, opacity; }
+.anim-blob-c { animation: blob-c 19s ease-in-out infinite; will-change: transform, opacity; }
+.anim-grid { animation: grid-pan 40s linear infinite; }
+
+/* ------- Animated service icons (react to card .group:hover; see ServiceIcon.svelte) ------- */
+.svc { overflow: visible; }
+.svc * {
+	transition: stroke 0.35s ease, fill 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+}
+.svc-bolt,
+.svc-plug-left,
+.svc-plug-right,
+.svc-spark {
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+/* chart: line hidden→drawn on hover, coloured green (growth) */
+.svc-chart .svc-line,
+.svc-chart .svc-arrow { stroke-dasharray: 30; }
+.group:hover .svc-chart .svc-axis,
+.group.is-active .svc-chart .svc-axis { stroke: #34d399; opacity: 0.7; }
+.group:hover .svc-chart .svc-line,
+.group:hover .svc-chart .svc-arrow,
+.group.is-active .svc-chart .svc-line,
+.group.is-active .svc-chart .svc-arrow {
+	stroke: #34d399;
+	animation: svc-draw 0.7s ease forwards;
+}
+@keyframes svc-draw {
+	from { stroke-dashoffset: 30; }
+	to { stroke-dashoffset: 0; }
+}
+
+/* bolt: strike — flash, glow, turn yellow */
+.group:hover .svc-bolt,
+.group.is-active .svc-bolt {
+	stroke: #facc15;
+	fill: #facc15;
+	fill-opacity: 0.15;
+	filter: drop-shadow(0 0 3px #facc15);
+	animation: svc-strike 0.55s ease;
+}
+@keyframes svc-strike {
+	0% { opacity: 0.3; transform: scale(0.9) rotate(-4deg); }
+	25% { opacity: 1; transform: scale(1.18) rotate(3deg); }
+	40% { opacity: 0.5; }
+	55% { opacity: 1; }
+	70% { opacity: 0.7; }
+	100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+/* plug: halves start apart, slide together + spark on hover */
+.svc-plug-left { transform: translateX(-2.5px); }
+.svc-plug-right { transform: translateX(2.5px); }
+.svc-spark { opacity: 0; }
+.group:hover .svc-plug-left,
+.group.is-active .svc-plug-left { transform: translateX(0.5px); stroke: #34d399; }
+.group:hover .svc-plug-right,
+.group.is-active .svc-plug-right { transform: translateX(-0.5px); stroke: #34d399; }
+.group:hover .svc-spark,
+.group.is-active .svc-spark {
+	stroke: #facc15;
+	animation: svc-spark 0.5s ease 0.25s;
+}
+.group.is-active .svc-icon { transform: scale(1.1); }
+@keyframes svc-spark {
+	0% { opacity: 0; transform: scale(0.3); }
+	50% { opacity: 1; transform: scale(1.15); }
+	100% { opacity: 0; transform: scale(0.6); }
+}
+
+/* ------- Interactive card spotlight (glow eases toward cursor; see spotlight.js) ------- */
+.spotlight { position: relative; }
+.spotlight::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: radial-gradient(
+		320px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+		rgba(56, 189, 248, 0.16),
+		transparent 60%
+	);
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	pointer-events: none;
+	z-index: 0;
+}
+.spotlight:hover::before { opacity: 1; }
+
+/* Border beam: a gradient ring lit within radius --br from entry point --ex/--ey.
+   The gradient is masked to just the border via the padding + mask-exclude trick.
+   --br is animatable because it's registered with @property, so the beam spreads
+   (grows) and retracts (shrinks) via CSS transitions on :hover / .is-active. */
+@property --br {
+	syntax: '<length>';
+	inherits: false;
+	initial-value: 0px;
+}
+.beam {
+	position: relative;
+	transition: --br 0.55s ease;
+}
+.beam:hover,
+.beam.is-active { --br: 900px; }
+.beam.is-active { --ex: 50%; --ey: 50%; } /* mobile active card spreads from centre */
+.beam::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: inherit;
+	padding: 1.5px;
+	background: radial-gradient(
+		circle var(--br, 0px) at var(--ex, 50%) var(--ey, 50%),
+		rgba(56, 189, 248, 0.95),
+		rgba(56, 189, 248, 0.5) 55%,
+		transparent 100%
+	);
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+/* Hide the horizontal scrollbar on the mobile Services carousel */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (max-width: 767px) {
+	/* roomier card typography for the one-card-per-screen mobile carousel */
+	.svc-card { padding: 1.5rem 1.4rem; }
+	.svc-card .svc-icon { height: 2.75rem; width: 2.75rem; }
+	.svc-card h3 { margin-top: 1rem; font-size: 1.2rem; }
+	.svc-card ul { margin-top: 0.9rem; }
+	.svc-card li { font-size: 0.95rem; line-height: 1.5; }
+	.svc-card li + li { margin-top: 0.7rem; }
+}
+
 /* Fonts loaded locally-ish via system fallback; swap-in Inter if available */
 html {
 	font-family: var(--font-sans);
 }
 
+/* Text is unselectable site-wide (cleaner mobile scroll / feels app-like)…
+   …except contact info and form fields, which people need to copy or edit. */
+body {
+	-webkit-user-select: none;
+	user-select: none;
+}
+input,
+textarea,
+select,
+a[href^='mailto:'],
+a[href^='tel:'],
+.selectable {
+	-webkit-user-select: text;
+	user-select: text;
+}
+
 /* Reveal-on-scroll: hand-coded, no library */
 .reveal {
 	opacity: 0;
-	transform: translateY(24px);
+	transform: translate(var(--rx, 0px), var(--ry, 24px));
 	transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 	will-change: opacity, transform;
 }
@@ -38,9 +221,37 @@ html {
 		transform: none;
 		transition: none;
 	}
-	.animate-float {
+	.animate-float,
+	.anim-blob-a,
+	.anim-blob-b,
+	.anim-blob-c,
+	.anim-grid {
 		animation: none;
 	}
+	.group:hover .svc-chart .svc-line,
+	.group:hover .svc-chart .svc-arrow,
+	.group:hover .svc-bolt,
+	.group:hover .svc-spark {
+		animation: none;
+	}
+	.svc-plug-left,
+	.svc-plug-right { transform: none; }
+	.group.is-active .svc-chart .svc-line,
+	.group.is-active .svc-chart .svc-arrow,
+	.group.is-active .svc-bolt,
+	.group.is-active .svc-spark { animation: none; }
+	.beam { transition: none; }
+	.beam:hover,
+	.beam.is-active { --br: 0px; }
+	.hint-bounce { animation: none; }
+}
+
+/* Dither overlay: breaks up 8-bit color banding in the large soft gradients.
+   Tiny inline SVG fractal-noise tile, applied at very low opacity. */
+.bg-noise {
+	/* desaturated (gray) fractal noise so normal-blend dithering shifts luminance
+	   evenly — this is what actually breaks banding on dark backgrounds */
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Subtle grid/glow background helpers */

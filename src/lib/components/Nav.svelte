@@ -1,9 +1,11 @@
 <script>
+	import { onMount } from 'svelte';
 	import { useI18n } from '$lib/i18n-context.js';
 	const i18n = useI18n();
 
 	let scrolled = $state(false);
 	let open = $state(false);
+	let activeId = $state('');
 
 	function onScroll() {
 		scrolled = window.scrollY > 12;
@@ -15,6 +17,23 @@
 		{ href: '#projects', key: 'projects' },
 		{ href: '#contact', key: 'contact' }
 	];
+
+	// Scroll-spy: mark the section currently occupying the middle of the viewport.
+	onMount(() => {
+		const els = links
+			.map((l) => document.getElementById(l.href.slice(1)))
+			.filter((el) => el != null);
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) {
+					if (e.isIntersecting) activeId = e.target.id;
+				}
+			},
+			{ rootMargin: '-45% 0px -50% 0px', threshold: 0 }
+		);
+		els.forEach((el) => io.observe(el));
+		return () => io.disconnect();
+	});
 </script>
 
 <svelte:window on:scroll={onScroll} />
@@ -26,13 +45,20 @@
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 		<a href="#top" class="flex items-center gap-2 font-semibold tracking-tight">
 			<span class="grid h-8 w-8 place-items-center rounded-lg bg-accent text-ink font-bold">π</span>
-			<span class="text-lg">PI<span class="text-accent"> Retail</span></span>
+			<span class="text-lg">PI<span class="text-accent">Retail</span></span>
 		</a>
 
 		<div class="hidden items-center gap-8 md:flex">
 			{#each links as l}
-				<a href={l.href} class="text-sm text-slate-300 transition-colors hover:text-white">
+				<a
+					href={l.href}
+					class="relative text-sm transition-colors hover:text-white
+						{activeId === l.href.slice(1) ? 'text-accent' : 'text-slate-300'}"
+				>
 					{i18n.t.nav[l.key]}
+					{#if activeId === l.href.slice(1)}
+						<span class="absolute -bottom-1.5 left-0 h-0.5 w-full rounded-full bg-accent"></span>
+					{/if}
 				</a>
 			{/each}
 		</div>

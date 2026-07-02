@@ -1,6 +1,7 @@
 <script>
 	import { useI18n } from '$lib/i18n-context.js';
 	import { reveal } from '$lib/reveal.js';
+	import { spotlight } from '$lib/spotlight.js';
 	import Section from './Section.svelte';
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
@@ -10,8 +11,9 @@
 	<div class="grid gap-5 md:grid-cols-3">
 		{#each i18n.t.projects.items as p, i}
 			<article
-				class="flex flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-transparent p-7 transition-transform hover:-translate-y-1"
+				class="spotlight beam flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-linear-to-b from-white/[0.07] to-transparent p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/15 *:relative *:z-10"
 				use:reveal={{ delay: i * 90 }}
+				use:spotlight
 			>
 				<span class="w-fit rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent">{p.tag}</span>
 				<h3 class="mt-4 text-xl font-semibold">{p.title}</h3>

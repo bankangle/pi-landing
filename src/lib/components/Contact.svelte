@@ -1,7 +1,9 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { useI18n } from '$lib/i18n-context.js';
+	import { EMAIL } from '$lib/i18n.js';
 	import { reveal } from '$lib/reveal.js';
+	import Ambient from './Ambient.svelte';
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
 
@@ -25,14 +27,18 @@
 </script>
 
 <section id="contact" class="relative scroll-mt-24 overflow-hidden py-24">
-	<div class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-	<div class="pointer-events-none absolute left-1/2 top-10 h-[360px] w-[600px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"></div>
+	<div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
+	<Ambient />
 
 	<div class="relative mx-auto max-w-2xl px-6">
 		<div class="text-center" use:reveal>
 			<span class="text-sm font-semibold uppercase tracking-wider text-accent">{i18n.t.contact.eyebrow}</span>
-			<h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
+			<h2 class="mt-3 select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
 			<p class="mt-4 text-lg text-slate-400">{i18n.t.contact.subtitle}</p>
+			<p class="mt-3 text-sm text-slate-400">
+				{i18n.t.contact.orEmail}
+				<a href="mailto:{EMAIL}" class="font-medium text-accent underline-offset-4 hover:underline">{EMAIL}</a>
+			</p>
 		</div>
 
 		{#if status === 'success'}
