@@ -52,11 +52,36 @@
 		}
 	}
 
+	// Eased glide to the pin position instead of an instant scrollTo — a fling
+	// can cross the threshold with tens of px of overshoot, and hard-correcting
+	// that in one frame reads as a "jump" right before the horizontal mode.
+	let aligning = false;
+	function alignTo(target) {
+		const start = window.scrollY;
+		const dist = target - start;
+		if (Math.abs(dist) < 2) {
+			window.scrollTo(0, target);
+			return;
+		}
+		aligning = true;
+		const t0 = performance.now();
+		const D = 260;
+		const step = (now) => {
+			if (!aligning) return; // cancelled (exit)
+			const p = Math.min(1, (now - t0) / D);
+			const e = 1 - Math.pow(1 - p, 3); // ease-out cubic
+			window.scrollTo(0, start + dist * e);
+			if (p < 1) requestAnimationFrame(step);
+			else aligning = false;
+		};
+		requestAnimationFrame(step);
+	}
+
 	function engage(entry) {
-		window.scrollTo(0, topDoc()); // fine-tune alignment (fires on idle, finger up)
 		index = entry === 'up' ? n - 1 : 0;
 		engaged = true;
 		gestureDone = true; // consume the gesture that brought us in
+		alignTo(topDoc()); // smooth settle onto the pin point
 	}
 
 	// Exit = just unlock. No assisted scrolling — the user decides where to go.
@@ -64,6 +89,7 @@
 	function exit() {
 		engaged = false;
 		armed = false;
+		aligning = false;
 	}
 
 	function stepForward() {
@@ -75,7 +101,7 @@
 		else exit();
 	}
 	function tryStep(sign) {
-		if (gestureDone) return;
+		if (gestureDone || aligning) return;
 		gestureDone = true;
 		if (sign > 0) stepForward();
 		else stepBackward();
@@ -84,6 +110,7 @@
 	function onScroll() {
 		if (!enabled || !pinEl) return;
 		if (engaged) {
+			if (aligning) return; // the glide is driving the scroll — don't fight it
 			// hold the panel pinned — cancels any residual momentum/drift
 			const t = topDoc();
 			if (Math.abs(window.scrollY - t) > 1) window.scrollTo(0, t);
