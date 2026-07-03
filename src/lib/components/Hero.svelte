@@ -35,7 +35,7 @@
 			<div class="mt-9 flex flex-wrap items-center justify-center gap-4">
 				<a
 					href="#contact"
-					class="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-ink transition-transform hover:scale-[1.03]"
+					class="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-white transition-transform hover:scale-[1.03]"
 				>
 					{i18n.t.hero.ctaPrimary}
 					<Icon name="arrow" size={18} class="transition-transform group-hover:translate-x-0.5" />

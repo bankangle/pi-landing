@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { useI18n } from '$lib/i18n-context.js';
+	import { EN_ENABLED } from '$lib/i18n.js';
+	import Logo from './Logo.svelte';
 	const i18n = useI18n();
 
 	let scrolled = $state(false);
@@ -44,8 +46,7 @@
 >
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 		<a href="#top" class="flex items-center gap-2 font-semibold tracking-tight">
-			<span class="grid h-8 w-8 place-items-center rounded-lg bg-accent text-ink font-bold">π</span>
-			<span class="text-lg">PI<span class="text-accent">Retail</span></span>
+			<Logo size={30} class="text-white" />
 		</a>
 
 		<div class="hidden items-center gap-8 md:flex">
@@ -64,16 +65,18 @@
 		</div>
 
 		<div class="flex items-center gap-3">
-			<button
-				onclick={() => i18n.toggle()}
-				class="rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:border-accent hover:text-accent"
-				aria-label="Switch language"
-			>
-				{i18n.lang === 'ru' ? 'EN' : 'RU'}
-			</button>
+			{#if EN_ENABLED}
+				<button
+					onclick={() => i18n.toggle()}
+					class="rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:border-accent hover:text-accent"
+					aria-label="Switch language"
+				>
+					{i18n.lang === 'ru' ? 'EN' : 'RU'}
+				</button>
+			{/if}
 			<a
 				href="#contact"
-				class="hidden rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03] sm:inline-block"
+				class="hidden rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-[1.03] sm:inline-block"
 			>
 				{i18n.t.nav.cta}
 			</a>
@@ -102,7 +105,7 @@
 						{i18n.t.nav[l.key]}
 					</a>
 				{/each}
-				<a href="#contact" onclick={() => (open = false)} class="rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-ink">
+				<a href="#contact" onclick={() => (open = false)} class="rounded-full bg-accent px-4 py-2 text-center text-sm font-semibold text-white">
 					{i18n.t.nav.cta}
 				</a>
 			</div>

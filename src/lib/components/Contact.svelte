@@ -32,10 +32,8 @@
 
 	<div class="relative mx-auto max-w-2xl px-6">
 		<div class="text-center" use:reveal>
-			<span class="text-sm font-semibold uppercase tracking-wider text-accent">{i18n.t.contact.eyebrow}</span>
-			<h2 class="mt-3 select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
-			<p class="mt-4 text-lg text-slate-400">{i18n.t.contact.subtitle}</p>
-			<p class="mt-3 text-sm text-slate-400">
+			<h2 class="select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
+			<p class="mt-4 text-sm text-slate-400">
 				{i18n.t.contact.orEmail}
 				<a href="mailto:{EMAIL}" class="font-medium text-accent underline-offset-4 hover:underline">{EMAIL}</a>
 			</p>
@@ -93,7 +91,7 @@
 				<button
 					type="submit"
 					disabled={status === 'sending'}
-					class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-ink transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+					class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
 				>
 					{status === 'sending' ? i18n.t.contact.sending : i18n.t.contact.submit}
 					{#if status !== 'sending'}<Icon name="arrow" size={18} />{/if}

@@ -10,7 +10,6 @@
 	<div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr]">
 		<div use:reveal={{ x: -40 }}>
 			<span class="text-sm font-semibold uppercase tracking-wider text-accent">{i18n.t.about.eyebrow}</span>
-			<h2 class="mt-3 select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.about.title}</h2>
 			<div class="mt-5 space-y-4 text-lg leading-relaxed text-slate-300">
 				<p>{i18n.t.about.p1}</p>
 				<p>{i18n.t.about.p2}</p>

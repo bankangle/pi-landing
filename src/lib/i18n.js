@@ -6,6 +6,9 @@
 
 export const LANGS = /** @type {const} */ (['ru', 'en']);
 export const DEFAULT_LANG = 'ru';
+// Temporarily Russian-only: hides the language toggle and pins SSR to ru.
+// Flip to true to bring English back — dictionary and plumbing stay intact.
+export const EN_ENABLED = false;
 export const EMAIL = 'hello@pi-retail.com';
 
 /** @param {string | undefined | null} value */
@@ -16,9 +19,9 @@ export function normalizeLang(value) {
 export const dict = {
 	ru: {
 		meta: {
-			title: 'PI Retail — быстрые победы для вашего бизнеса',
+			title: 'pi-retail | Быстрые победы для вашего бизнеса',
 			description:
-				'PI Retail — консалтинг и разработка ПО для повышения эффективности процессов в ритейле. 20+ лет опыта, 30+ проектов, измеримый результат «под ключ».'
+				'pi-retail — консалтинг и разработка ПО для повышения эффективности процессов в ритейле. 20+ лет опыта, 30+ проектов, измеримый результат «под ключ».'
 		},
 		nav: { about: 'О нас', services: 'Услуги', projects: 'Проекты', contact: 'Контакты', cta: 'Написать нам' },
 		hero: {
@@ -37,33 +40,33 @@ export const dict = {
 		about: {
 			eyebrow: 'О нас',
 			title: 'Кто мы',
-			p1: 'PI Retail — компания, сфокусированная на консультационных услугах и разработке программного обеспечения по повышению эффективности процессов с подтверждением эффекта — от описания образа результата до внедрения «под ключ».',
+			p1: 'pi-retail - компания, сфокусированная на консультационных услугах и разработке программного обеспечения по повышению эффективности процессов с подтверждением эффекта от описания образа результата до внедрения "под ключ".',
 			p2: '20+ лет релевантного опыта в 30+ проектах по повышению эффективности процессов в розничных операциях, финансах, логистике и ИТ позволяют нам предоставлять уникальные услуги и продукты для наших клиентов.',
-			p3: 'Наш подход основан на понимании стратегической повестки заказчиков и на заранее известном наборе предварительных гипотез по улучшениям, что позволяет существенно сокращать время на диагностику «узких мест» и быстрее фокусироваться на практических решениях бизнес-задач. Мы фанаты быстрых побед, полученный эффект от которых наши заказчики реинвестируют в реализацию средне- и долгосрочных инициатив.',
+			p3: 'Наш подход основан на понимании стратегической повестки заказчиков, на заранее известном наборе предварительных гипотез по улучшениям, что позволяет существенно сокращать время на диагностику "узких мест" и быстрее фокусироваться на практических решениях бизнес-задач. Мы фанаты быстрых побед, полученный эффект от которых наши заказчики реинвестируют в реализацию средне- и долго-срочных инициатив.',
 			principlesTitle: 'Наши принципы',
 			principles: [
-				'Упрощённый проектный подход',
+				'Упрощенный проектный подход',
 				'Ориентация на измеримый результат',
 				'Индивидуальный подход к каждому проекту'
 			],
 			teamTitle: 'Команда',
 			team: '10+ ведущих консультантов с опытом в топ-менеджменте и отраслевой экспертизой.',
-			note: 'PI Retail (Performance Improvement Retail) — это направление консалтинга, ориентированное на повышение эффективности бизнеса в розничных сетях.'
+			note: 'pi retail - performance improvement retail (повышение эффективности в розничных сетях)'
 		},
 		services: {
 			eyebrow: 'Услуги',
 			title: 'Наши услуги',
-			subtitle: 'Три направления, за каждым из которых стоит измеримый эффект',
+			subtitle: '',
 			items: [
 				{
 					title: 'Развитие компании',
 					points: [
 						'Оценка уровня зрелости бизнеса',
-						'Разработка целевой операционной модели в соответствии со стратегическими целями',
-						'Разработка функциональных стратегий на 1–3 года',
+						'Разработка целевой операционной модели компании в соответствии со стратегическими целями компании',
+						'Разработка функциональных стратегий на 1-3 года',
 						'Разработка антикризисных мер и контроль их исполнения',
-						'Профили руководителей: KPI, роли, обязанности и ключевые ожидаемые результаты',
-						'Применение OKR-методологии для достижения стратегических целей',
+						'Разработка профилей руководителей с предложением KPIs, ролей, обязанностей и ключевых ожидаемых результатов от должности',
+						'Применение OKR-методологиии для выполнения стратегических целей компании',
 						'Создание и контроль исполнения проектной методологии'
 					]
 				},
@@ -73,9 +76,9 @@ export const dict = {
 						'Упрощение бизнес-процессов для повышения уровня сервиса и фокуса на операциях, добавляющих ценность',
 						'Проведение замеров производительности',
 						'Нормирование операций',
-						'Расчёт численности и графиков работы персонала',
+						'Расчет численности и графиков работы персонала',
 						'Внедрение операционных стандартов',
-						'Реализация систем контроля и отчётности'
+						'Реализация систем контроля и отчетности'
 					]
 				},
 				{
@@ -83,9 +86,9 @@ export const dict = {
 					points: [
 						'Выбор и интеграция технологических решений',
 						'RFID-автоматизация процессов работы с товаром',
-						'Настройка ИИ-помощников и чат-ботов',
-						'Приложения для регистрации партнёров, чек-листов, фотоотчётов',
-						'Единое решение вместо разрозненных инструментов коммуникации (почта, календари, звонки, задачи, база знаний, документы)'
+						'Настройка ИИ-помощников, Чат-ботов',
+						'Приложений для регистрации партнеров, проведения чек-листов, фотоотчетов',
+						'Внедрение единого решения для отказа от разрозненных инструментов коммуникации (эл.почта, календари, онлайн-звонки, отслеживание задач, база знаний, совместная работа с документами)'
 					]
 				}
 			]
@@ -93,24 +96,24 @@ export const dict = {
 		projects: {
 			eyebrow: 'Проекты',
 			title: 'Выборочные проекты и результаты',
-			subtitle: 'Несколько кейсов и измеримый эффект',
+			subtitle: '',
 			items: [
-				{ tag: 'Fashion', title: 'ТОП-1 fashion-ритейлер РФ', body: 'Внедрение RFID-технологии', metric: 'Рост продаж +4,5%; рост OSA (представленность товара в нужной размерной сетке) на 12%' },
-				{ tag: 'Fashion', title: 'ТОП-3 fashion-ритейлер РФ', body: 'Нормирование производительности и внедрение WFM-решения', metric: 'Рост производительности труда +13%; сокращение ФОТ −12%' },
-				{ tag: 'Fashion', title: 'ТОП-3 fashion-ритейлер РФ', body: 'Внедрение DAM-системы (управление фотоактивами)', metric: 'Скорость производства +10%, надёжное хранение контента' },
-				{ tag: 'Ювелирный', title: 'ТОП-2 ювелирный ритейлер РФ', body: 'Внедрение системы Visual AI на сайте компании', metric: 'Рост конверсии +10%' },
-				{ tag: 'Ювелирный', title: 'ТОП-1 ювелирный ритейлер РФ', body: 'Обогащение клиентских данных', metric: 'Выручка на клиента +8%; затраты на маркетинг −15%; рост эффективности e-mail-канала' },
-				{ tag: 'Fashion', title: 'ТОП-5 fashion-ритейлер РФ', body: 'Real-time ИИ-анализ трендов и конкурентов', metric: 'Качественные коммерческие возможности, снижение рисков новых коллекций, решения на основе покупательского интереса' },
-				{ tag: 'Логистика', title: 'ТОП-10 fashion-ритейлер РФ', body: 'Переезд с арендованного склада на 3PL-провайдера с ИТ-интеграцией', metric: '98%+ OTIF (on time, in full) по всем каналам продаж' },
-				{ tag: 'Логистика', title: 'ТОП-5 3PL-провайдер', body: 'Автоматизированная уборка складских помещений', metric: 'Внедрение роботов-уборщиков, окупаемость 1,5 года' },
-				{ tag: 'Продукты', title: 'Премиум продуктовый ритейлер РФ', body: 'Разработка целевой организационной структуры', metric: 'Утверждённая оргструктура, сохраняющая уникальность ценностного предложения на основе стратегических целей' }
+				{ tag: 'Fashion', title: 'ТОП-1 Fashion розничная сеть РФ', body: 'Внедрение RFID-технологии', metric: 'Рост продаж 4,5%; Рост OSA (представленность товара в торговом зале в необходимой размерной сетке) на 12%' },
+				{ tag: 'Fashion', title: 'ТОП-3 Fashion розничная сеть РФ', body: 'Нормирование производительности и внедрение WFM решения', metric: 'Рост производительности труда на 13%; Сокращение ФОТ на 12%' },
+				{ tag: 'Fashion', title: 'ТОП-3 Fashion розничная сеть РФ', body: 'Внедрение DAM системы (управление фото активами)', metric: 'Повышение скорости производства (10+%) и надежности хранения контента' },
+				{ tag: 'Ювелирный', title: 'ТОП-2 ювелирная розничная сеть РФ', body: 'Внедрение системы Visual AI на web-сайте компании', metric: 'Рост конверсии 10+%' },
+				{ tag: 'Ювелирный', title: 'ТОП-1 ювелирная розничная сеть РФ', body: 'Обогащение клиентских данных', metric: '8+% Рост выручки на клиента; Снижение затрат на маркетинг 15+%; Рост эффективности e-mail канала' },
+				{ tag: 'Fashion', title: 'ТОП-5 fashion розничная сеть РФ', body: 'Внедрение real time ИИ-анализа трендов и конкурентов', metric: 'Определение качественных коммерческих возможностей, снижение рисков при создании новых коллекций и принятие решений на основе покупательского интереса' },
+				{ tag: 'Логистика', title: 'ТОП-10 fashion розничная сеть РФ', body: 'Организация переезда с арендованного склада на 3PL провайдера с необходимой ИТ-интеграцией', metric: '98+% OTIF (on time, in full) для всех каналов продаж' },
+				{ tag: 'Логистика', title: 'ТОП-5 Third Party Logistics провайдер', body: 'Автоматизированная уборка складских помещений', metric: 'Внедрение роботов-уборщиков, окупаемость 1,5 года' },
+				{ tag: 'Продукты', title: 'Премиум продуктовая розничная сеть РФ', body: 'Разработка целевой организационной структуры', metric: 'Утвержденная организационная структура для сохранения уникальности ценностного предложения клиентам, основанного на стратегических целях компании' }
 			]
 		},
 		contact: {
 			eyebrow: 'Контакты',
 			title: 'Напишите нам',
 			subtitle: 'Расскажите о задаче — ответим в течение рабочего дня и предложим первый шаг',
-			orEmail: 'или на почту',
+			orEmail: 'на почту',
 			name: 'Имя',
 			namePh: 'Как к вам обращаться',
 			email: 'Email или телефон',
@@ -127,9 +130,9 @@ export const dict = {
 	},
 	en: {
 		meta: {
-			title: 'PI Retail — fast wins for your business',
+			title: 'pi-retail — fast wins for your business',
 			description:
-				'PI Retail — consulting and software development for process efficiency in retail. 20+ years of experience, 30+ projects, measurable turnkey results.'
+				'pi-retail — consulting and software development for process efficiency in retail. 20+ years of experience, 30+ projects, measurable turnkey results.'
 		},
 		nav: { about: 'About', services: 'Services', projects: 'Projects', contact: 'Contact', cta: 'Get in touch' },
 		hero: {
@@ -148,7 +151,7 @@ export const dict = {
 		about: {
 			eyebrow: 'About',
 			title: 'Who we are',
-			p1: 'PI Retail is a company focused on consulting and software development for process efficiency — with proven impact, from defining the target outcome to turnkey implementation.',
+			p1: 'pi-retail is a company focused on consulting and software development for process efficiency — with proven impact, from defining the target outcome to turnkey implementation.',
 			p2: '20+ years of relevant experience across 30+ efficiency projects in retail operations, finance, logistics and IT let us deliver unique services and products for our clients.',
 			p3: 'Our approach is built on understanding the client’s strategic agenda and on a predefined set of improvement hypotheses — which drastically cuts the time spent diagnosing bottlenecks and gets us to practical solutions faster. We’re fans of quick wins, and the impact they generate is reinvested by our clients into mid- and long-term initiatives.',
 			principlesTitle: 'Our principles',
@@ -159,12 +162,12 @@ export const dict = {
 			],
 			teamTitle: 'Team',
 			team: '10+ senior consultants with top-management experience and deep industry expertise.',
-			note: 'PI Retail (Performance Improvement Retail) is a consulting practice focused on improving business efficiency in retail chains.'
+			note: 'pi retail - performance improvement retail (improving efficiency in retail chains)'
 		},
 		services: {
 			eyebrow: 'Services',
 			title: 'Our services',
-			subtitle: 'Three practice areas, each tied to measurable impact',
+			subtitle: '',
 			items: [
 				{
 					title: 'Company development',
@@ -204,7 +207,7 @@ export const dict = {
 		projects: {
 			eyebrow: 'Projects',
 			title: 'Selected projects and results',
-			subtitle: 'A few cases and their measurable impact',
+			subtitle: '',
 			items: [
 				{ tag: 'Fashion', title: '#1 fashion retailer, Russia', body: 'RFID technology rollout', metric: 'Sales +4.5%; OSA (on-shelf availability in the right size range) +12%' },
 				{ tag: 'Fashion', title: 'Top-3 fashion retailer, Russia', body: 'Productivity norming and WFM rollout', metric: 'Labor productivity +13%; payroll −12%' },
@@ -221,7 +224,7 @@ export const dict = {
 			eyebrow: 'Contact',
 			title: 'Get in touch',
 			subtitle: 'Tell us about your challenge — we reply within one business day and propose a first step',
-			orEmail: 'or email us at',
+			orEmail: 'email us at',
 			name: 'Name',
 			namePh: 'What should we call you',
 			email: 'Email or phone',
