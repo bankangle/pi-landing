@@ -1,25 +1,24 @@
 <script>
-	// "pi" mark from the original pi-retail logo, redrawn minimal & geometric:
-	// bold letters in currentColor, the i's dot is an accent growth-wedge,
-	// slate base ticks under both stems (measurement / bar-chart hint).
+	// The "pi" mark, redrawn as vectors faithful to the original raster logo:
+	// solid p with a slate foundation tick under the descender; the i wears a
+	// blue growth-wedge (roof rising right) over its own slate tick.
 	let { size = 28, class: klass = '' } = $props();
 </script>
 
 <svg
-	viewBox="0 0 118 124"
+	viewBox="0 0 120 130"
 	width={size}
-	height={size}
+	height={size * (130 / 120)}
 	class={klass}
 	aria-hidden="true"
 	fill="none"
 >
-	<!-- p: stem (with descender) + bowl -->
-	<rect x="12" y="34" width="18" height="74" rx="1.5" fill="currentColor" />
-	<circle cx="48" cy="61" r="18" stroke="currentColor" stroke-width="18" />
-	<rect x="12" y="112" width="18" height="6" rx="1.5" class="fill-slate-500" />
-	<!-- i: stem -->
-	<rect x="88" y="34" width="18" height="52" rx="1.5" fill="currentColor" />
-	<rect x="88" y="90" width="18" height="6" rx="1.5" class="fill-slate-500" />
-	<!-- growth wedge = the i's dot -->
-	<polygon points="88,26 106,8 106,26" class="fill-accent" />
+	<!-- p: stem with descender + bowl fused to it -->
+	<rect x="10" y="29" width="18" height="82" rx="2" fill="currentColor" />
+	<circle cx="45" cy="64" r="26" stroke="currentColor" stroke-width="18" />
+	<rect x="10" y="114" width="18" height="7" rx="1.5" class="fill-slate-500" />
+	<!-- i: growth wedge, slate tick, bar down to the x-height baseline -->
+	<polygon points="96,24 96,19 114,8 114,24" class="fill-accent" />
+	<rect x="96" y="27" width="18" height="7" rx="1.5" class="fill-slate-500" />
+	<rect x="96" y="38" width="18" height="61" rx="2" fill="currentColor" />
 </svg>
