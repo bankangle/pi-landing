@@ -20,6 +20,9 @@ services:
         sync: false
       - key: TELEGRAM_CHAT_ID
         sync: false
+      # Shared secret for /api/tg-relay (RU VPS -> Render -> Telegram forwarding).
+      - key: RELAY_SECRET
+        sync: false
       # Optional, for later:
       - key: MAX_BOT_TOKEN
         sync: false

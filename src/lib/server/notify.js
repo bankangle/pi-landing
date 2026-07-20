@@ -162,13 +162,33 @@ async function guard(fn, arg) {
 
 /** @param {string} text */
 async function sendTelegram(text) {
-	const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+	// direct first…
+	try {
+		const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+			signal: AbortSignal.timeout(15_000)
+		});
+		if (res.ok) return true;
+		console.error('[notify] telegram failed', res.status, await res.text().catch(() => ''));
+		return false; // telegram answered but rejected — relay won't do better
+	} catch (e) {
+		// …network-level failure (RU datacenters often block api.telegram.org):
+		// fall through to the relay if one is configured.
+		if (!env.TG_RELAY_URL || !env.RELAY_SECRET) {
+			console.error('[notify] telegram unreachable and no relay configured:', e?.cause?.code || e?.message);
+			return false;
+		}
+	}
+	const res = await fetch(env.TG_RELAY_URL, {
 		method: 'POST',
-		headers: { 'content-type': 'application/json' },
-		body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true })
+		headers: { 'content-type': 'application/json', authorization: `Bearer ${env.RELAY_SECRET}` },
+		body: JSON.stringify({ text }),
+		signal: AbortSignal.timeout(90_000) // relay host may cold-start
 	});
 	if (!res.ok) {
-		console.error('[notify] telegram failed', res.status, await res.text().catch(() => ''));
+		console.error('[notify] tg-relay failed', res.status, await res.text().catch(() => ''));
 		return false;
 	}
 	return true;
