@@ -23,7 +23,7 @@ export const dict = {
 			description:
 				'pi-retail — консалтинг и разработка ПО для повышения эффективности процессов в ритейле. 20+ лет опыта, 30+ проектов, измеримый результат «под ключ».'
 		},
-		nav: { about: 'О нас', services: 'Услуги', projects: 'Проекты', contact: 'Контакты', cta: 'Написать нам' },
+		nav: { about: 'О нас', services: 'Услуги', products: 'Продукты', projects: 'Проекты', contact: 'Контакты', cta: 'Написать нам' },
 		hero: {
 			eyebrow: 'performance improvement retail',
 			title: 'Быстрые победы для вашего бизнеса',
@@ -40,7 +40,7 @@ export const dict = {
 		about: {
 			eyebrow: 'О нас',
 			title: 'Кто мы',
-			p1: 'pi-retail - компания, сфокусированная на консультационных услугах и разработке программного обеспечения по повышению эффективности процессов с подтверждением эффекта от описания образа результата до внедрения "под ключ".',
+			p1: 'pi-retail - компания, сфокусированная на консультационных услугах, выборе и интеграции технологических решений, разработке собственного программного обеспечения по повышению эффективности процессов с подтверждением эффекта от описания образа результата до внедрения "под ключ".',
 			p2: '20+ лет релевантного опыта в 30+ проектах по повышению эффективности процессов в розничных операциях, финансах, логистике и ИТ позволяют нам предоставлять уникальные услуги и продукты для наших клиентов.',
 			p3: 'Наш подход основан на понимании стратегической повестки заказчиков, на заранее известном наборе предварительных гипотез по улучшениям, что позволяет существенно сокращать время на диагностику "узких мест" и быстрее фокусироваться на практических решениях бизнес-задач. Мы фанаты быстрых побед, полученный эффект от которых наши заказчики реинвестируют в реализацию средне- и долго-срочных инициатив.',
 			principlesTitle: 'Наши принципы',
@@ -93,6 +93,85 @@ export const dict = {
 				}
 			]
 		},
+		products: {
+			eyebrow: 'Продукты',
+			title: 'Выборочные облачные ИТ-инструменты для повышения эффективности процессов',
+			subtitle: '',
+			items: [
+				{
+					title: 'Быстрый RFID пересчет товара для проверки остатков',
+					points: [
+						'Эффект: рост продаж (0,5%-10%) за счет ежедневного контроля наличия наиболее полной размерной горки в торговом зале',
+						'Сложность: низ.; Стоимость: сред.; Сроки: 1-3 мес.',
+						'Существенное ускорение процесса пересчета товара (массовое, а не штучное сканирование)',
+						'Повышение точности остатков',
+						'Печать RFID-меток одновременно с печатью ценников в торговом зале с использованием RFID-принтера, что не требует кодирования товаров на фабриках при производстве и позволяет протестировать решение на ограниченном объеме бизнеса'
+					]
+				},
+				{
+					title: 'Упрощение процесса производства фото-контента',
+					points: [
+						'Эффект: Повышение скорости производства и надежность хранения контента 10+%',
+						'Сложность: низ.; Стоимость: низ.; Сроки: 1-2 мес.',
+						'Автоматическое указание в названии файлов нескольких SKU в заданном формате, а также запись в EXIF файла и сохранение при конвертации в PSD',
+						'Одновременное использование системы несколькими фотографами на разных компьютерах',
+						'Хранение файлов, управление доступом к контенту и его согласование между сотрудниками в зависимости от полномочий',
+						'Стабильная загрузка и выгрузка большого кол-ва файлов (>100 RAW файлов) с названиями файлов, присвоенными при загрузке',
+						'Быстрый просмотр (full screen & high res) и поиск луков по номенклатуре'
+					]
+				},
+				{
+					title: 'Оценка розничных стандартов/фотоотчетов',
+					points: [
+						'Эффект: 5+% повышение качества проведения чек-листов, фотоотчетов и рост уровня сервиса',
+						'Сложность: низ.; Стоимость: низ.; Сроки: 1 нед.',
+						'Универсальный перечень проверяемых стандартов для различных ролей: администрация магазина, территориальный руководитель, внутренний проверяющий, тайный покупатель',
+						'Гибкость в настройках: веса, типа проверяемого пункта, приоритета зоны и дня недели для проверки',
+						'Отслеживание локации проверяющих',
+						'Коммуникация с уведомлениями сторон в поле "комментарий" к каждому пункту, чтобы проверяющий мог запросить у проверяемого исправления или фотоподтверждения'
+					]
+				},
+				{
+					title: 'Приложение для регистрации партнеров',
+					points: [
+						'Эффект: 20+% рост кол-ва и скорости привлечения партнеров',
+						'Сложность: низ.; Стоимость: низ.; Сроки: 1 нед.',
+						'Онлайн форма для заключения и подписания договоров с партнерами бренда независимо от формы взаимодействия (ФЛ, ИП, самозанятые) с созданием контрагентов в корпоративных системах'
+					]
+				},
+				{
+					title: 'Упрощение анализа ассортимента и цен конкурентов',
+					points: [
+						'Эффект: Удобство просмотра, повышение скорости анализа данных сотрудниками',
+						'Сложность: низ.; Стоимость: низ.; Сроки: 2 нед.',
+						'Контролируемый доступ для сотрудников заказчика',
+						'Высокая производительность инструмента (по соотношению-цена/качество)'
+					]
+				},
+				{
+					title: 'Проведение хронометража линейных операций и фото рабочего дня персонала',
+					points: [
+						'Эффект: повышенная точность замеров за счет использования моб.приложения и ИИ-транскрибированием аудио записи каждым пользователем, кто отвечает за их проведение (на 10+ % выше в сравнении с ручным способом «ручка+бумага» и планшетом с excel-макросом)',
+						'Сложность: низ.; Стоимость: низ.; Сроки: 1-2 нед. (настройка перед использованием)',
+						'Управление ходом замеров в реальном времени в WEB-интерфейсе даже после начала замеров (настройки, корректировки, удобство актуализации «что замерять»)',
+						'Проведение замеров в режиме offline и загрузка данных на сервер как только устройство вновь подключилось к интернету',
+						'Автоматический сбор результатов для определения норм производительности и ежедневное резервирование данных'
+					]
+				},
+				{
+					title: 'Упрощение расчета численности и планирования графиков работы персонала',
+					points: [
+						'Эффект: Рост продуктивности персонала 5+%; Снижение ФОТ: 5-10%',
+						'Сложность: сред.; Стоимость: сред.; Сроки: 1 мес.',
+						'Прогнозирование драйверов численности на уровне: объект – месяц – день – час',
+						'Расчет требуемых человеко-часов от норм производительности по операциям к оптимальному покрытию через гибкие графики',
+						'Учет организационных и законодательных ограничений',
+						'Гибкое изменение правил расчета, а также проведение сравнительного анализа расчетов при разных вводных'
+					]
+				},
+			],
+			note: 'Все наши продукты разработаны с учётом типовых потребностей бизнеса, проверены в реальных проектах и могут быть адаптированы под индивидуальные особенности Заказчика.'
+		},
 		projects: {
 			eyebrow: 'Проекты',
 			title: 'Выборочные проекты и результаты',
@@ -136,7 +215,7 @@ export const dict = {
 			description:
 				'pi-retail — consulting and software development for process efficiency in retail. 20+ years of experience, 30+ projects, measurable turnkey results.'
 		},
-		nav: { about: 'About', services: 'Services', projects: 'Projects', contact: 'Contact', cta: 'Get in touch' },
+		nav: { about: 'About', services: 'Services', products: 'Products', projects: 'Projects', contact: 'Contact', cta: 'Get in touch' },
 		hero: {
 			eyebrow: 'performance improvement retail',
 			title: 'Fast wins for your business',
@@ -153,7 +232,7 @@ export const dict = {
 		about: {
 			eyebrow: 'About',
 			title: 'Who we are',
-			p1: 'pi-retail is a company focused on consulting and software development for process efficiency — with proven impact, from defining the target outcome to turnkey implementation.',
+			p1: 'pi-retail is a company focused on consulting, selection and integration of technology solutions, and development of its own software for process efficiency — with proven impact, from defining the target outcome to turnkey implementation.',
 			p2: '20+ years of relevant experience across 30+ efficiency projects in retail operations, finance, logistics and IT let us deliver unique services and products for our clients.',
 			p3: 'Our approach is built on understanding the client’s strategic agenda and on a predefined set of improvement hypotheses — which drastically cuts the time spent diagnosing bottlenecks and gets us to practical solutions faster. We’re fans of quick wins, and the impact they generate is reinvested by our clients into mid- and long-term initiatives.',
 			principlesTitle: 'Our principles',
@@ -205,6 +284,85 @@ export const dict = {
 					]
 				}
 			]
+		},
+		products: {
+			eyebrow: 'Products',
+			title: 'Selected cloud IT tools for process efficiency',
+			subtitle: '',
+			items: [
+				{
+					title: 'Fast RFID stock count for inventory checks',
+					points: [
+						'Impact: sales growth (0.5%–10%) through daily control of the fullest size range on the sales floor',
+						'Complexity: low; Cost: medium; Timeline: 1–3 months',
+						'Dramatically faster stock counting (bulk, not per-item scanning)',
+						'Higher inventory accuracy',
+						'RFID tags printed together with price tags on the sales floor using an RFID printer — no factory-side tagging required, so the solution can be piloted on a limited part of the business'
+					]
+				},
+				{
+					title: 'Streamlined photo-content production',
+					points: [
+						'Impact: 10+% faster production and more reliable content storage',
+						'Complexity: low; Cost: low; Timeline: 1–2 months',
+						'Automatic multi-SKU file naming in a set format, written to EXIF and preserved through PSD conversion',
+						'Simultaneous use by several photographers on different computers',
+						'File storage, permission-based content access and approval workflows between employees',
+						'Stable upload/download of large batches (>100 RAW files) keeping names assigned at upload',
+						'Fast viewing (full screen & high res) and look search by SKU'
+					]
+				},
+				{
+					title: 'Retail standards / photo-report assessment',
+					points: [
+						'Impact: 5+% higher quality of checklists and photo reports, higher service level',
+						'Complexity: low; Cost: low; Timeline: 1 week',
+						'A universal set of checkable standards for different roles: store administration, territorial manager, internal auditor, mystery shopper',
+						'Flexible settings: weights, check-item type, zone priority and day of week',
+						'Auditor location tracking',
+						'Two-way communication with notifications in a per-item comment field, so the auditor can request fixes or photo confirmation'
+					]
+				},
+				{
+					title: 'Partner registration app',
+					points: [
+						'Impact: 20+% growth in the number and speed of partner acquisition',
+						'Complexity: low; Cost: low; Timeline: 1 week',
+						'An online flow for concluding and signing brand-partner contracts for any entity type (individuals, companies, self-employed), creating counterparties in corporate systems'
+					]
+				},
+				{
+					title: 'Simplified competitor assortment and price analysis',
+					points: [
+						'Impact: convenient viewing, faster data analysis for employees',
+						'Complexity: low; Cost: low; Timeline: 2 weeks',
+						'Controlled access for the client’s employees',
+						'High tool performance for its price/quality ratio'
+					]
+				},
+				{
+					title: 'Time-and-motion studies of line operations and staff workday photos',
+					points: [
+						'Impact: higher measurement accuracy via a mobile app with AI audio transcription for every measurer (10+% better than pen-and-paper or a tablet with an Excel macro)',
+						'Complexity: low; Cost: low; Timeline: 1–2 weeks (setup before use)',
+						'Real-time control of measurements in a web interface even after they start (settings, corrections, easy updates of what to measure)',
+						'Offline measurement with automatic upload once the device reconnects',
+						'Automatic collection of results to derive productivity norms, with daily data backups'
+					]
+				},
+				{
+					title: 'Simplified headcount calculation and staff schedule planning',
+					points: [
+						'Impact: 5+% staff productivity growth; payroll reduction 5–10%',
+						'Complexity: medium; Cost: medium; Timeline: 1 month',
+						'Forecasting headcount drivers at the level: site – month – day – hour',
+						'Calculating required man-hours from per-operation productivity norms to optimal coverage via flexible schedules',
+						'Accounting for organizational and legal constraints',
+						'Flexible calculation rules, plus comparative analysis of runs with different inputs'
+					]
+				},
+			],
+			note: 'All our products are built around typical business needs, proven in real projects, and can be adapted to each client’s specifics.'
 		},
 		projects: {
 			eyebrow: 'Projects',

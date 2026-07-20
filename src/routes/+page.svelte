@@ -1,10 +1,10 @@
 <script>
-	let { data } = $props();
 	import { useI18n } from '$lib/i18n-context.js';
 	import Nav from '$lib/components/Nav.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import About from '$lib/components/About.svelte';
 	import Services from '$lib/components/Services.svelte';
+	import Products from '$lib/components/Products.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 	import Contact from '$lib/components/Contact.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -24,7 +24,8 @@
 	<Hero />
 	<About />
 	<Services />
+	<Products />
 	<Projects />
-	<Contact token={data.formToken} />
+	<Contact />
 </main>
 <Footer />
