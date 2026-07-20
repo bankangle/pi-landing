@@ -41,6 +41,16 @@
 }
 .hint-bounce { animation: hint-bounce 1.8s ease-in-out infinite; }
 
+/* Note "switch-on" highlight: text glows up in accent, then settles. */
+@keyframes note-on {
+	0% { color: inherit; text-shadow: none; }
+	55% { color: #e2e8f0; text-shadow: 0 0 24px rgba(29, 78, 216, 0.9), 0 0 6px rgba(29, 78, 216, 0.6); }
+	100% { color: #cbd5e1; text-shadow: 0 0 12px rgba(29, 78, 216, 0.35); }
+}
+.note-on { animation: note-on 1.1s ease forwards; }
+/* vertical mode: fires when the reveal action marks the note visible */
+.note-glow.is-visible { animation: note-on 1.1s ease 0.35s forwards; }
+
 .anim-blob-a { animation: blob-a 16s ease-in-out infinite; will-change: transform, opacity; }
 .anim-blob-b { animation: blob-b 22s ease-in-out infinite; will-change: transform, opacity; }
 .anim-blob-c { animation: blob-c 19s ease-in-out infinite; will-change: transform, opacity; }
@@ -244,6 +254,8 @@ a[href^='tel:'],
 	.beam:hover,
 	.beam.is-active { --br: 0px; }
 	.hint-bounce { animation: none; }
+	.note-on,
+	.note-glow.is-visible { animation: none; }
 }
 
 /* Dither overlay: breaks up 8-bit color banding in the large soft gradients.

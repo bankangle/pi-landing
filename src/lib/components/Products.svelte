@@ -99,10 +99,17 @@
 
 <section id="products" class="relative scroll-mt-24 py-24 max-md:pb-12 {horizontal ? 'pb-0' : ''}">
 	<div bind:this={pinWrap} class={horizontal ? 'flex h-svh flex-col pt-20' : ''}>
-		<!-- header: pinned on top for the whole story in horizontal mode -->
-		<div class="mx-auto px-6 text-center {horizontal ? 'mb-2 shrink-0' : 'mb-14'}" use:reveal>
+		<!-- header: pinned on top for the whole story; steps aside on short screens -->
+		<div
+			class="mx-auto px-6 text-center {horizontal
+				? 'mb-2 shrink-0 [@media(max-height:36rem)]:hidden'
+				: 'mb-14'}"
+			use:reveal
+		>
 			<h2 class="select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.products.title}</h2>
-			<p class="mt-4 text-lg text-slate-400">{i18n.t.products.subtitle}</p>
+			<p class="mt-4 text-lg text-slate-400 {horizontal ? '[@media(max-height:47rem)]:hidden' : ''}">
+				{i18n.t.products.subtitle}
+			</p>
 		</div>
 
 		<!-- panels: active card centered, neighbours peeking at the sides.
@@ -156,7 +163,11 @@
 		{#if horizontal}
 			<!-- note + progress: pinned at the bottom for the whole story -->
 			<div class="mx-auto flex w-full max-w-4xl shrink-0 flex-col items-center gap-2 px-6 pb-5 pt-3">
-				<p class="select-none text-center text-xs italic leading-relaxed text-slate-500">
+				<p
+					class="select-none text-center text-xs italic leading-relaxed text-slate-500 [@media(max-height:47rem)]:hidden {progress > 0.95
+						? 'note-on'
+						: ''}"
+				>
 					{i18n.t.products.note}
 				</p>
 				<span class="select-none font-mono text-xs tracking-widest text-slate-500">
@@ -167,7 +178,7 @@
 				</div>
 			</div>
 		{:else}
-			<p class="mx-auto mt-10 max-w-3xl border-l-2 border-accent/50 px-6 pl-4 text-sm italic leading-relaxed text-slate-400" use:reveal>
+			<p class="note-glow mx-auto mt-10 max-w-3xl border-l-2 border-accent/50 px-6 pl-4 text-sm italic leading-relaxed text-slate-400" use:reveal>
 				{i18n.t.products.note}
 			</p>
 		{/if}
