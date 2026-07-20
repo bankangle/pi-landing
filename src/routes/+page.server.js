@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { saveLead } from '$lib/server/store.js';
-import { notifyWithRetry } from '$lib/server/notify.js';
+import { enqueueLead } from '$lib/server/notify.js';
 import { issueToken, checkToken, allowIp, isDuplicate } from '$lib/server/antispam.js';
 import { normalizeLang } from '$lib/i18n.js';
 
@@ -54,7 +54,7 @@ export const actions = {
 			return fail(500, { error: 'send_failed', name, contact, message });
 		}
 
-		notifyWithRetry(lead); // background fan-out with retries; never blocks the user
+		enqueueLead(lead); // durable queue: retries until every configured channel accepts
 
 		return { success: true };
 	}

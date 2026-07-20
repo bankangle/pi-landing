@@ -33,7 +33,7 @@ export async function saveLead(data) {
 /**
  * Append a delivery-status line for a lead (audit trail: which channels
  * accepted it, and when). Best-effort — never throws.
- * @param {string} id @param {Record<string, boolean>} channels
+ * @param {string} id @param {Record<string, boolean|null|number>} channels
  */
 export async function markDelivery(id, channels) {
 	try {
@@ -43,4 +43,35 @@ export async function markDelivery(id, channels) {
 	} catch (e) {
 		console.error('[store] delivery mark failed', e);
 	}
+}
+
+/**
+ * Re-read the ledger: all leads + the union of channels that ever succeeded
+ * for each. Used on boot to re-queue anything still undelivered, so pending
+ * notifications survive restarts. Never throws (missing file = empty ledger).
+ * @returns {Promise<{ leads: Map<string, any>, delivered: Map<string, Set<string>> }>}
+ */
+export async function readLedger() {
+	const leads = new Map();
+	const delivered = new Map();
+	try {
+		const { readFile } = await import('node:fs/promises');
+		const text = await readFile(file(), 'utf8');
+		for (const line of text.split('\n')) {
+			if (!line.trim()) continue;
+			let obj;
+			try {
+				obj = JSON.parse(line);
+			} catch {
+				continue;
+			}
+			if (obj.id) leads.set(obj.id, obj);
+			else if (obj.deliveryFor) {
+				const set = delivered.get(obj.deliveryFor) ?? new Set();
+				for (const [k, v] of Object.entries(obj.channels ?? {})) if (v === true) set.add(k);
+				delivered.set(obj.deliveryFor, set);
+			}
+		}
+	} catch {}
+	return { leads, delivered };
 }
