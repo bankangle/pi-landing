@@ -95,7 +95,7 @@ export const dict = {
 		},
 		products: {
 			eyebrow: 'Продукты',
-			title: 'Продукты',
+			title: 'Наши продукты',
 			subtitle: 'Выборочные облачные ИТ-инструменты для повышения эффективности процессов',
 			items: [
 				{
@@ -287,7 +287,7 @@ export const dict = {
 		},
 		products: {
 			eyebrow: 'Products',
-			title: 'Products',
+			title: 'Our products',
 			subtitle: 'Selected cloud IT tools for process efficiency',
 			items: [
 				{
