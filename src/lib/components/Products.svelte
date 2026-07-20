@@ -15,6 +15,8 @@
 	let track = $state();
 	let horizontal = $state(false); // true while the GSAP layout is active
 	let progress = $state(0);
+	/** @type {HTMLElement[]} */
+	let panels = [];
 
 	const n = () => i18n.t.products.items.length;
 	const current = $derived(Math.min(n(), Math.max(1, Math.round(progress * (n() - 1)) + 1)));
@@ -31,7 +33,7 @@
 			gsap.registerPlugin(ScrollTrigger);
 
 			ctx = gsap.matchMedia();
-			ctx.add('(prefers-reduced-motion: no-preference)', () => {
+			ctx.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
 				let killed = false;
 				let tween;
 				horizontal = true;
@@ -39,6 +41,25 @@
 				tick().then(() => {
 					if (killed) return;
 					const dist = () => track.scrollWidth - window.innerWidth;
+					// Deck effect: every card's shift/scale/depth is a continuous
+					// function of its distance to the centre, so all size changes
+					// animate smoothly with the scroll — nothing snaps by class.
+					const deck = (p) => {
+						const fi = p * (n() - 1);
+						panels.forEach((el, k) => {
+							if (!el) return;
+							const d = k - fi;
+							const ad = Math.abs(d);
+							const w = el.offsetWidth || 600;
+							gsap.set(el, {
+								x: -Math.sign(d) * Math.min(ad, 1) * w * 0.38, // tuck under the active card
+								scale: 1 - 0.08 * Math.min(ad, 1.3),
+								zIndex: 100 - Math.round(ad * 10),
+								opacity: 1 - 0.35 * Math.min(ad, 1),
+								transformOrigin: 'center center'
+							});
+						});
+					};
 					tween = gsap.to(track, {
 						x: () => -dist(),
 						ease: 'none',
@@ -50,15 +71,21 @@
 							scrub: 1,
 							snap: { snapTo: 1 / (n() - 1), duration: { min: 0.2, max: 0.5 }, ease: 'power1.inOut' },
 							invalidateOnRefresh: true,
-							onUpdate: (st) => (progress = st.progress)
+							onUpdate: (st) => {
+								progress = st.progress;
+								deck(st.progress);
+							},
+							onRefresh: (st) => deck(st.progress)
 						}
 					});
+					deck(tween.scrollTrigger?.progress ?? 0);
 				});
 				return () => {
 					killed = true;
 					tween?.scrollTrigger?.kill();
 					tween?.kill();
 					gsap.set(track, { clearProps: 'all' });
+					if (panels.length) gsap.set(panels.filter(Boolean), { clearProps: 'all' });
 					horizontal = false;
 				};
 			});
@@ -91,12 +118,12 @@
 				{#each i18n.t.products.items as p, i}
 					<div
 						class={horizontal
-							? `flex h-full w-(--cardw) shrink-0 items-center py-4 transition-[opacity,transform,filter] duration-300 ${i === current - 1 ? '' : 'scale-[0.97] opacity-50 saturate-50'}`
+							? 'relative flex h-full w-(--cardw) shrink-0 items-stretch py-4'
 							: ''}
 					>
 						<article
 							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/15 *:relative *:z-10 {horizontal
-								? 'max-h-full overflow-y-auto p-8'
+								? 'h-full p-8'
 								: ''}"
 							use:spotlight
 						>
