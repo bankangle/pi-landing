@@ -170,12 +170,6 @@
 				>
 					{i18n.t.products.note}
 				</p>
-				<span class="select-none font-mono text-xs tracking-widest text-slate-500">
-					{String(current).padStart(2, '0')} / {String(n()).padStart(2, '0')}
-				</span>
-				<div class="h-0.5 w-40 overflow-hidden rounded-full bg-white/10">
-					<div class="h-full rounded-full bg-accent transition-transform duration-150 ease-out" style="transform: scaleX({progress}); transform-origin: left"></div>
-				</div>
 			</div>
 		{:else}
 			<p class="note-glow mx-auto mt-10 max-w-3xl border-l-2 border-accent/50 px-6 pl-4 text-sm italic leading-relaxed text-slate-400" use:reveal>
