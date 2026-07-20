@@ -95,8 +95,8 @@ export const dict = {
 		},
 		products: {
 			eyebrow: 'Продукты',
-			title: 'Выборочные облачные ИТ-инструменты для повышения эффективности процессов',
-			subtitle: '',
+			title: 'Продукты',
+			subtitle: 'Выборочные облачные ИТ-инструменты для повышения эффективности процессов',
 			items: [
 				{
 					title: 'Быстрый RFID пересчет товара для проверки остатков',
@@ -287,8 +287,8 @@ export const dict = {
 		},
 		products: {
 			eyebrow: 'Products',
-			title: 'Selected cloud IT tools for process efficiency',
-			subtitle: '',
+			title: 'Products',
+			subtitle: 'Selected cloud IT tools for process efficiency',
 			items: [
 				{
 					title: 'Fast RFID stock count for inventory checks',
