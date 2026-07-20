@@ -1,0 +1,11 @@
+# PI Retail — landing on both domains, automatic HTTPS via Let's Encrypt.
+{
+	email hello@pi-retail.com
+	# Pin Let's Encrypt (the box couldn't reach ZeroSSL, Caddy's other default CA).
+	acme_ca https://acme-v02.api.letsencrypt.org/directory
+}
+
+pi-retail.com, www.pi-retail.com, pi-retail.ru, www.pi-retail.ru {
+	encode gzip zstd
+	reverse_proxy landing:3000
+}

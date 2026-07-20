@@ -7,8 +7,11 @@
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
 
+	let { token = '' } = $props();
+
 	/** @type {'idle' | 'sending' | 'success' | 'error'} */
 	let status = $state('idle');
+	let errorCode = $state('');
 
 	const submit = () => {
 		status = 'sending';
@@ -18,11 +21,19 @@
 				await update({ reset: true });
 			} else if (result.type === 'failure') {
 				status = 'error';
+				errorCode = result.data?.error ?? '';
 			} else {
 				await update();
 				status = 'idle';
 			}
 		};
+	};
+
+	const errorText = () => {
+		if (errorCode === 'expired') return i18n.t.contact.errorExpired;
+		if (errorCode === 'rate_limited') return i18n.t.contact.errorRate;
+		if (errorCode === 'required') return i18n.t.contact.required;
+		return i18n.t.contact.error;
 	};
 </script>
 
@@ -83,9 +94,11 @@
 
 				<!-- Honeypot: bots fill this, humans never see it. -->
 				<input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+				<!-- Time-trap token: proves the form was rendered by us, >=3s ago. -->
+				<input type="hidden" name="form_token" value={token} />
 
 				{#if status === 'error'}
-					<p class="text-sm text-rose-300">{i18n.t.contact.error}</p>
+					<p class="text-sm text-rose-300">{errorText()}</p>
 				{/if}
 
 				<button

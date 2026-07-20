@@ -1,96 +1,135 @@
-// Server-only notifications. Uses the global fetch — no SDK, no dependencies.
-// Runs inside the SvelteKit server action (a serverless/Node function), so the
-// bot tokens stay on the server and are never shipped to the browser.
-//
-// Uses $env/dynamic/private so values are read from the real process env at
-// runtime on your VPS (systemd/pm2/docker), not baked in at build time.
+// Server-only notifications, fanned out to every configured channel:
+//   - Telegram (primary, instant)
+//   - Email copy via SMTP (Yandex: smtp.yandex.ru, app password)
+//   - Max (VK messenger) — stub until the bot exists
+// Unconfigured channels are skipped silently. Failures are retried in the
+// background with backoff; persistence (store.js) already guarantees the lead
+// itself is never lost, so notifications are best-effort delivery on top.
 import { env } from '$env/dynamic/private';
+import { markDelivery } from './store.js';
+import nodemailer from 'nodemailer';
 
-/**
- * @param {{ name: string, contact: string, message: string, lang: string }} data
- * @returns {Promise<boolean>} true if at least one channel accepted the message
- */
-export async function notify(data) {
-	const text = formatMessage(data);
-	// Fire all configured channels; succeed if any one of them delivered.
-	const results = await Promise.allSettled([sendTelegram(text), sendMax(text)]);
-	return results.some((r) => r.status === 'fulfilled' && r.value === true);
+/** @typedef {{ id: string, name: string, contact: string, message: string, lang: string, at: string }} Lead */
+
+/** Fire all channels once; returns per-channel result (true=sent, false=failed, null=not configured). */
+async function attempt(lead) {
+	const text = formatText(lead);
+	const [tg, mail, max] = await Promise.all([
+		guard(sendTelegram, text),
+		guard(sendEmail, lead),
+		guard(sendMax, text)
+	]);
+	return { telegram: tg, email: mail, max };
 }
 
-/** @param {{ name: string, contact: string, message: string, lang: string }} d */
-function formatMessage(d) {
+/**
+ * Notify with background retries (3 attempts: now, +1min, +5min per channel).
+ * Never throws; records the final outcome next to the lead.
+ * @param {Lead} lead
+ */
+export function notifyWithRetry(lead) {
+	const delays = [0, 60_000, 300_000];
+	let attemptNo = 0;
+	/** @type {Record<string, boolean|null>} */
+	let result = { telegram: null, email: null, max: null };
+
+	const run = async () => {
+		attemptNo++;
+		const r = await attempt(lead);
+		// keep the best result per channel (once true, stays true)
+		for (const k of Object.keys(result)) result[k] = result[k] === true ? true : r[k];
+		const pendingRetry = Object.values(result).some((v) => v === false) && attemptNo < delays.length;
+		await markDelivery(lead.id, { ...result, attempt: attemptNo });
+		if (pendingRetry) {
+			setTimeout(run, delays[attemptNo]);
+		} else if (Object.values(result).every((v) => v !== true)) {
+			console.error(`[notify] lead ${lead.id}: NO channel delivered — check channel config; lead is safe in the store`);
+		}
+	};
+	run().catch((e) => console.error('[notify] unexpected', e));
+}
+
+/** @param {Lead} d */
+function formatText(d) {
 	return [
-		'🟦 <b>New PI Retail enquiry</b>',
+		'🟦 Новая заявка с pi-retail',
 		'',
-		`<b>Name:</b> ${escapeHtml(d.name)}`,
-		`<b>Contact:</b> ${escapeHtml(d.contact)}`,
-		d.message ? `<b>Message:</b> ${escapeHtml(d.message)}` : '',
+		`Имя: ${d.name}`,
+		`Контакт: ${d.contact}`,
+		d.message ? `Сообщение: ${d.message}` : '',
 		'',
-		`<i>lang: ${d.lang} · ${new Date().toISOString()}</i>`
+		`${d.at} · id ${d.id}`
 	]
 		.filter(Boolean)
 		.join('\n');
+}
+
+async function guard(fn, arg) {
+	try {
+		return await fn(arg);
+	} catch (e) {
+		console.error(`[notify] ${fn.name} threw`, e?.message || e);
+		return false;
+	}
 }
 
 /** @param {string} text */
 async function sendTelegram(text) {
 	const token = env.TELEGRAM_BOT_TOKEN;
 	const chatId = env.TELEGRAM_CHAT_ID;
-	if (!token || !chatId) return false; // not configured -> skip silently
-
+	if (!token || !chatId) return null;
 	const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
 		method: 'POST',
 		headers: { 'content-type': 'application/json' },
-		body: JSON.stringify({
-			chat_id: chatId,
-			text,
-			parse_mode: 'HTML',
-			disable_web_page_preview: true
-		})
+		body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true })
 	});
 	if (!res.ok) {
-		console.error('[notify] telegram failed', res.status, await safeText(res));
+		console.error('[notify] telegram failed', res.status, await res.text().catch(() => ''));
 		return false;
 	}
 	return true;
 }
 
-/**
- * Max (VK messenger) — same fetch pattern. Endpoint is stubbed until we wire the
- * real bot; leaving MAX_BOT_TOKEN empty makes this a silent no-op today.
- * @param {string} text
- */
+let transporter = null;
+function smtp() {
+	if (!env.SMTP_USER || !env.SMTP_PASS) return null;
+	transporter ??= nodemailer.createTransport({
+		host: env.SMTP_HOST || 'smtp.yandex.ru',
+		port: Number(env.SMTP_PORT || 465),
+		secure: true,
+		auth: { user: env.SMTP_USER, pass: env.SMTP_PASS }
+	});
+	return transporter;
+}
+
+/** @param {Lead} lead */
+async function sendEmail(lead) {
+	const t = smtp();
+	if (!t) return null;
+	const to = env.LEADS_EMAIL || env.SMTP_USER;
+	await t.sendMail({
+		from: `"pi-retail сайт" <${env.SMTP_USER}>`,
+		to,
+		subject: `Заявка с сайта: ${lead.name}`,
+		text: formatText(lead),
+		replyTo: lead.contact.includes('@') ? lead.contact : undefined
+	});
+	return true;
+}
+
+/** Max (VK messenger) — same fetch pattern; fill env when the bot exists. */
 async function sendMax(text) {
 	const token = env.MAX_BOT_TOKEN;
 	const chatId = env.MAX_CHAT_ID;
-	if (!token || !chatId) return false;
-
-	// TODO: replace with the confirmed Max Bot API endpoint/shape when available.
+	if (!token || !chatId) return null;
 	const res = await fetch(`https://botapi.max.ru/messages?access_token=${token}`, {
 		method: 'POST',
 		headers: { 'content-type': 'application/json' },
 		body: JSON.stringify({ chat_id: chatId, text })
 	});
 	if (!res.ok) {
-		console.error('[notify] max failed', res.status, await safeText(res));
+		console.error('[notify] max failed', res.status, await res.text().catch(() => ''));
 		return false;
 	}
 	return true;
-}
-
-/** @param {Response} res */
-async function safeText(res) {
-	try {
-		return await res.text();
-	} catch {
-		return '<no body>';
-	}
-}
-
-/** @param {string} s */
-function escapeHtml(s) {
-	return String(s)
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;');
 }

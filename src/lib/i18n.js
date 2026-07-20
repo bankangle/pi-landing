@@ -124,6 +124,8 @@ export const dict = {
 			sending: 'Отправляем…',
 			success: 'Спасибо! Мы получили заявку и скоро свяжемся.',
 			error: 'Что-то пошло не так. Попробуйте ещё раз или напишите нам на почту.',
+			errorExpired: 'Страница была открыта слишком давно. Отправьте форму ещё раз.',
+			errorRate: 'Слишком много попыток. Подождите немного и попробуйте снова.',
 			required: 'Заполните обязательные поля.'
 		},
 		footer: { tagline: 'Быстрые победы для вашего бизнеса', rights: 'Все права защищены.' }
@@ -235,6 +237,8 @@ export const dict = {
 			sending: 'Sending…',
 			success: 'Thanks! We got your request and will be in touch shortly.',
 			error: 'Something went wrong. Please try again or email us directly.',
+			errorExpired: 'This page was open for too long. Please submit the form again.',
+			errorRate: 'Too many attempts. Please wait a bit and try again.',
 			required: 'Please fill in the required fields.'
 		},
 		footer: { tagline: 'Fast wins for your business', rights: 'All rights reserved.' }
