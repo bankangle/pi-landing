@@ -15,6 +15,9 @@ ENV PORT=3000
 # (adapter-node CSRF for the contact form). Caddy sets these on reverse_proxy.
 ENV PROTOCOL_HEADER=x-forwarded-proto
 ENV HOST_HEADER=x-forwarded-host
+# Real client IP from Caddy — without this the per-IP rate limit sees every
+# visitor as the proxy and throttles the whole site as one user.
+ENV ADDRESS_HEADER=x-forwarded-for
 COPY --from=build /app/build ./build
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
