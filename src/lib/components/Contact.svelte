@@ -52,11 +52,11 @@
 	};
 </script>
 
-<section id="contact" class="relative scroll-mt-24 overflow-hidden py-24">
+<section id="contact" class="relative flex min-h-svh scroll-mt-24 flex-col justify-center overflow-hidden py-24">
 	<div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
 	<Ambient />
 
-	<div class="relative mx-auto max-w-2xl px-6 text-center">
+	<div class="relative mx-auto w-full max-w-2xl px-6 text-center">
 		<div use:reveal>
 			<h2 class="select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
 			<p class="mt-4 text-sm text-slate-400">
