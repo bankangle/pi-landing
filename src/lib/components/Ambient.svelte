@@ -12,7 +12,11 @@
 
 <div class="pointer-events-none absolute inset-0 overflow-hidden">
 	{#if grid}
-		<div class="anim-grid absolute inset-0 bg-grid opacity-60" use:desync={{ base: 40 }}></div>
+		<div
+			class="anim-grid absolute inset-0 bg-grid opacity-60 will-change-transform"
+			style="transform: scale(var(--grid-zoom, 1))"
+			use:desync={{ base: 40 }}
+		></div>
 	{/if}
 
 	<div class="absolute inset-0" use:parallax>

@@ -3,7 +3,6 @@
 	import { useI18n } from '$lib/i18n-context.js';
 	import { countUp } from '$lib/anim.js';
 	import Ambient from './Ambient.svelte';
-	import Aurora from './Aurora.svelte';
 	import ScrollHint from './ScrollHint.svelte';
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
@@ -16,13 +15,14 @@
 	});
 	const py = $derived(reduce ? 0 : scrollY * 0.15);
 	const fade = $derived(reduce ? 1 : Math.max(0, 1 - scrollY / 600));
+	// depth: the background grid zooms in as you scroll out of the hero
+	const gridZoom = $derived(reduce ? 1 : 1 + Math.min(scrollY, 900) * 0.0005);
 </script>
 
 <svelte:window on:scroll={() => (scrollY = window.scrollY)} />
 
-<section id="top" class="relative flex min-h-svh flex-col justify-center overflow-hidden">
+<section id="top" class="relative flex min-h-svh flex-col justify-center overflow-hidden" style="--grid-zoom: {gridZoom}">
 	<Ambient grid />
-	<Aurora />
 
 	<div class="relative mx-auto w-full max-w-6xl px-6 py-28 sm:py-32">
 		<div class="mx-auto max-w-3xl text-center" style="transform: translateY({py}px); opacity: {fade}">
