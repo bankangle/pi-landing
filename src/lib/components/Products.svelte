@@ -237,11 +237,11 @@
 									{String(i + 1).padStart(2, '0')}
 								</span>
 							{/if}
-							<h3 class="text-xl font-semibold {horizontal ? 'md:text-2xl' : ''}">{p.title}</h3>
+							<h3 class="text-xl font-semibold {horizontal ? 'md:text-2xl [@media(min-height:53rem)]:min-h-16' : ''}">{p.title}</h3>
 							<ul class="mt-4 space-y-2.5">
 								{#each p.points as point, j}
 									{#if j === 0}
-										<li class="p-li font-semibold leading-relaxed text-white" style="--bi:{j}">{point}</li>
+										<li class="p-li font-semibold leading-relaxed text-white {horizontal ? '[@media(min-height:53rem)]:min-h-27' : ''}" style="--bi:{j}">{point}</li>
 									{:else if j === 1}
 										<li class="p-li text-xs leading-relaxed text-slate-500" style="--bi:{j}">{point}</li>
 									{:else}
