@@ -29,3 +29,8 @@ export function initSmoothScroll() {
 	document.documentElement.classList.add('no-scrollbar');
 	return lenis;
 }
+
+/** The live instance (null on touch / reduced-motion / before init). */
+export function getLenis() {
+	return lenis;
+}

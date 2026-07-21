@@ -14,7 +14,7 @@
 		<h2 class="select-none text-3xl font-bold tracking-tight sm:text-4xl">{i18n.t.contact.title}</h2>
 		<a
 			href="mailto:{EMAIL}"
-			class="mt-8 inline-block rounded-full border border-white/15 bg-white/5 px-8 py-4 text-xl font-semibold text-accent transition-colors hover:border-accent"
+			class="mt-8 inline-block rounded-full border border-white/15 bg-white/5 px-8 py-4 text-xl font-semibold text-white transition-colors hover:border-accent"
 		>
 			{EMAIL}
 		</a>

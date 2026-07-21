@@ -36,11 +36,29 @@
 			ctx.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
 				let killed = false;
 				let tween;
+				let cleanupExtra;
 				horizontal = true;
 				// let Svelte apply the horizontal layout before measuring
-				tick().then(() => {
+				tick().then(async () => {
 					if (killed) return;
+					const { getLenis } = await import('$lib/smooth-scroll.js');
 					const dist = () => track.scrollWidth - window.innerWidth;
+					// Lenis-native snap: when scrolling rests mid-story, glide the
+					// nearest card to centre THROUGH the virtual scroll (no fighting).
+					let snapT;
+					const scheduleSnap = (st) => {
+						clearTimeout(snapT);
+						snapT = setTimeout(() => {
+							const lenis = getLenis();
+							if (!lenis || killed) return;
+							const p = st.progress;
+							if (p <= 0.001 || p >= 0.999) return;
+							const idx = Math.round(p * (n() - 1));
+							const target = st.start + (idx / (n() - 1)) * (st.end - st.start);
+							if (Math.abs(window.scrollY - target) < 2) return;
+							lenis.scrollTo(target, { duration: 0.55, easing: (t) => 1 - Math.pow(1 - t, 3) });
+						}, 180);
+					};
 					// Deck effect: every card's shift/scale/depth is a continuous
 					// function of its distance to the centre, so all size changes
 					// animate smoothly with the scroll — nothing snaps by class.
@@ -73,14 +91,18 @@
 							onUpdate: (st) => {
 								progress = st.progress;
 								deck(st.progress);
+								scheduleSnap(st);
 							},
 							onRefresh: (st) => deck(st.progress)
 						}
 					});
 					deck(tween.scrollTrigger?.progress ?? 0);
+					const clearSnap = () => clearTimeout(snapT);
+					cleanupExtra = clearSnap;
 				});
 				return () => {
 					killed = true;
+					cleanupExtra?.();
 					tween?.scrollTrigger?.kill();
 					tween?.kill();
 					gsap.set(track, { clearProps: 'all' });
@@ -97,6 +119,8 @@
 </script>
 
 <section id="products" class="relative scroll-mt-24 py-24 max-md:pb-12 {horizontal ? 'pb-0' : ''}">
+	<!-- telegram-chat-style doodle wallpaper for the whole section -->
+	<div class="doodle-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
 	<div bind:this={pinWrap} class={horizontal ? 'flex h-svh flex-col pt-24 [@media(max-height:56rem)]:pt-20' : ''}>
 		<!-- header: pinned on top with the same rhythm as other sections when
 		     height allows; tightens, then hides, as the viewport gets shorter -->
@@ -153,7 +177,7 @@
 							<ul class="mt-4 space-y-2.5">
 								{#each p.points as point, j}
 									{#if j === 0}
-										<li class="font-semibold leading-relaxed text-accent">{point}</li>
+										<li class="font-semibold leading-relaxed text-white">{point}</li>
 									{:else if j === 1}
 										<li class="text-xs leading-relaxed text-slate-500">{point}</li>
 									{:else}

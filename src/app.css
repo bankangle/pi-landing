@@ -218,6 +218,16 @@ html {
 	font-family: var(--font-sans);
 }
 
+/* Telegram-style doodle wallpaper (see static/doodles.svg): corporate/retail
+   line-art tile, fading out toward the section edges. */
+.doodle-bg {
+	background-image: url('/doodles.svg');
+	background-size: 500px auto;
+	opacity: 0.5;
+	mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+	-webkit-mask-image: linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+}
+
 /* Virtual scroll (Lenis): hide the native scrollbar — ScrollIndicator renders
    a passive, non-draggable one. Also let Lenis own anchor smoothness. */
 .no-scrollbar {

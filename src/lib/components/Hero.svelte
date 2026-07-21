@@ -52,7 +52,7 @@
 		<div class="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
 			{#each i18n.t.hero.stats as s}
 				<div class="rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-sm">
-					<div class="select-none text-3xl font-bold text-accent" use:countUp>{s.value}</div>
+					<div class="select-none text-3xl font-bold text-white" use:countUp>{s.value}</div>
 					<div class="mt-1 text-sm text-slate-400">{s.label}</div>
 				</div>
 			{/each}

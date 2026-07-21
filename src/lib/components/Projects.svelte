@@ -18,7 +18,7 @@
 			>
 				<h3 class="text-xl font-semibold">{p.title}</h3>
 				<p class="mt-2 leading-relaxed text-slate-400">{p.body}</p>
-				<div class="mt-4 font-semibold text-accent">{p.metric}</div>
+				<div class="mt-4 font-semibold text-white">{p.metric}</div>
 			</article>
 		{/each}
 	</div>
