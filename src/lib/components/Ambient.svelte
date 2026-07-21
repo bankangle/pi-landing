@@ -12,7 +12,7 @@
 
 <div class="pointer-events-none absolute inset-0 overflow-hidden">
 	{#if grid}
-		<div class="anim-grid absolute inset-0 bg-grid opacity-60" use:desync={{ base: 40 }}></div>
+		<div class="anim-grid ambient-grid absolute inset-0 bg-grid opacity-60" use:desync={{ base: 40 }}></div>
 	{/if}
 
 	<div class="absolute inset-0" use:parallax>
