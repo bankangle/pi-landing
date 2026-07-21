@@ -114,18 +114,18 @@
 
 		<!-- panels: active card centered, neighbours peeking at the sides.
 		     --cardw: 88vw on phones (no neighbours visible), 40rem on desktop -->
-		<div class={horizontal ? 'relative min-h-0 flex-1 overflow-hidden' : ''}>
+		<div class={horizontal ? 'relative flex min-h-0 flex-1 items-center overflow-hidden' : ''}>
 			<div
 				bind:this={track}
 				style={horizontal ? '--cardw: min(40rem, 88vw); padding-inline: calc((100vw - var(--cardw)) / 2)' : ''}
 				class={horizontal
-					? 'flex h-full w-max items-stretch gap-6 will-change-transform'
+					? 'flex w-max items-stretch gap-6 will-change-transform'
 					: 'mx-auto flex max-w-6xl flex-col gap-5 px-6'}
 			>
 				{#each i18n.t.products.items as p, i}
 					<div
 						class={horizontal
-							? 'relative flex h-full w-(--cardw) shrink-0 items-stretch py-4'
+							? 'relative flex w-(--cardw) shrink-0 items-stretch py-4'
 							: ''}
 					>
 						<article
