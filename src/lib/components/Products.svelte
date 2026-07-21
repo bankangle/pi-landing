@@ -44,6 +44,10 @@
 					if (killed) return;
 					const { getLenis } = await import('$lib/smooth-scroll.js');
 					const dist = () => track.scrollWidth - window.innerWidth;
+					// Lenis already lerps the scroll itself — scrubbing on top of it
+					// double-smooths and makes the approach->pin handoff visibly lag.
+					// With Lenis: read scroll instantly (true). Without: keep scrub 1.
+					const sc = getLenis() ? true : 1;
 					// Lenis-native snap: when scrolling rests mid-story, glide the
 					// nearest card to centre THROUGH the virtual scroll (no fighting).
 					let snapT;
@@ -92,7 +96,7 @@
 								trigger: pinWrap,
 								start: 'top bottom',
 								end: 'top top',
-								scrub: 1,
+								scrub: sc,
 								invalidateOnRefresh: true
 							}
 						}
@@ -106,7 +110,7 @@
 							start: 'top top',
 							end: () => '+=' + dist(),
 							pin: true,
-							scrub: 1,
+							scrub: sc,
 							invalidateOnRefresh: true,
 							onUpdate: (st) => {
 								progress = st.progress;
