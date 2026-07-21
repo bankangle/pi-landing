@@ -19,43 +19,36 @@
 			const lenis = getLenis();
 			if (!lenis || !sectionEl) return;
 			let prev = window.scrollY;
-			let armed = false;
+			let consumed = false; // gate already used for this approach
 			let snapping = false;
-			let t;
 			const onScroll = () => {
 				const T = sectionEl.getBoundingClientRect().top + window.scrollY;
-				const gate = T - window.innerHeight * 0.45;
+				const gate = T - window.innerHeight * 0.3;
 				const y = window.scrollY;
 				if (snapping) {
 					prev = y;
 					return;
 				}
-				if (prev < gate && y >= gate) armed = true; // crossed in from above
-				if (y < gate) armed = false; // left upward
+				if (y < gate - 60) consumed = false; // left upward -> re-arm
+				// intercept IN FLIGHT: the moment the approach crosses the gate,
+				// retarget the scroll to land on the section — never reach the
+				// footer on the first pass. lock keeps leftover wheel momentum
+				// from pushing past; the NEXT gesture scrolls to the footer.
+				if (!consumed && prev < gate && y >= gate) {
+					consumed = true;
+					snapping = true;
+					lenis.scrollTo(T, {
+						duration: 0.7,
+						lock: true,
+						easing: (x) => 1 - Math.pow(1 - x, 3),
+						onComplete: () => (snapping = false)
+					});
+					setTimeout(() => (snapping = false), 1000); // safety
+				}
 				prev = y;
-				if (!armed) return;
-				clearTimeout(t);
-				t = setTimeout(() => {
-					const y2 = window.scrollY;
-					if (y2 >= gate && Math.abs(y2 - T) > 2) {
-						snapping = true;
-						armed = false;
-						lenis.scrollTo(T, {
-							duration: 0.6,
-							easing: (x) => 1 - Math.pow(1 - x, 3),
-							onComplete: () => (snapping = false)
-						});
-						setTimeout(() => (snapping = false), 900); // safety
-					} else {
-						armed = false;
-					}
-				}, 150);
 			};
 			window.addEventListener('scroll', onScroll, { passive: true });
-			cleanup = () => {
-				clearTimeout(t);
-				window.removeEventListener('scroll', onScroll);
-			};
+			cleanup = () => window.removeEventListener('scroll', onScroll);
 		})();
 		return () => {
 			cancelAnimationFrame(raf0);
