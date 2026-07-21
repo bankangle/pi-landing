@@ -69,7 +69,6 @@
 							end: () => '+=' + dist(),
 							pin: true,
 							scrub: 1,
-							snap: { snapTo: 1 / (n() - 1), duration: { min: 0.2, max: 0.5 }, ease: 'power1.inOut' },
 							invalidateOnRefresh: true,
 							onUpdate: (st) => {
 								progress = st.progress;

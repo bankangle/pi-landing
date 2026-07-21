@@ -1,8 +1,16 @@
 <script>
 	import '../app.css';
+	import { onMount } from 'svelte';
 	import { provideI18n } from '$lib/i18n-context.js';
+	import ScrollIndicator from '$lib/components/ScrollIndicator.svelte';
 
 	let { data, children } = $props();
+
+	let smooth = $state(false);
+	onMount(async () => {
+		const { initSmoothScroll } = await import('$lib/smooth-scroll.js');
+		smooth = Boolean(initSmoothScroll());
+	});
 
 	let lang = $state(data.lang);
 
@@ -17,4 +25,7 @@
 	});
 </script>
 
+{#if smooth}
+	<ScrollIndicator />
+{/if}
 {@render children()}

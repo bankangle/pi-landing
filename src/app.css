@@ -198,6 +198,22 @@ html {
 	font-family: var(--font-sans);
 }
 
+/* Virtual scroll (Lenis): hide the native scrollbar — ScrollIndicator renders
+   a passive, non-draggable one. Also let Lenis own anchor smoothness. */
+.no-scrollbar {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+html.lenis {
+	height: auto;
+}
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
 /* Text is unselectable site-wide (cleaner mobile scroll / feels app-like)…
    …except contact info and form fields, which people need to copy or edit. */
 body {
