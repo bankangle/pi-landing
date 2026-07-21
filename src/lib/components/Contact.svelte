@@ -66,48 +66,62 @@
 			<p class="mt-6 text-lg text-slate-400">{i18n.t.contact.orLeave}</p>
 		</div>
 
-		{#if status === 'success'}
-			<div class="mx-auto mt-10 flex w-fit items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-8 py-6 text-emerald-200" use:reveal>
-				<Icon name="check" size={22} />
-				<p>{i18n.t.contact.success}</p>
-			</div>
-		{:else}
-			<form method="POST" use:enhance={submit} class="reveal-rise mx-auto mt-10 max-w-md" use:reveal>
-				<div class="flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-					<input
-						name="name"
-						required
-						placeholder={i18n.t.contact.namePh}
-						aria-label={i18n.t.contact.name}
-						class="w-full rounded-xl border border-white/10 bg-ink-soft px-5 py-3.5 text-white outline-none transition-colors placeholder:text-slate-500 focus:border-accent"
-					/>
-					<input
-						name="contact"
-						required
-						bind:value={contactValue}
-						placeholder={i18n.t.contact.emailPh}
-						aria-label={i18n.t.contact.email}
-						class="w-full rounded-xl border border-white/10 bg-ink-soft px-5 py-3.5 text-white outline-none transition-colors placeholder:text-slate-500 focus:border-accent"
-					/>
-					<button
-						type="submit"
-						disabled={status === 'sending'}
-						class="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 font-semibold text-white transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60"
-					>
-						{status === 'sending' ? i18n.t.contact.sending : i18n.t.contact.submit}
-						{#if status !== 'sending'}<Icon name="arrow" size={18} />{/if}
-					</button>
+		<form method="POST" use:enhance={submit} class="reveal-rise mx-auto mt-10 max-w-md" use:reveal>
+			<!-- one container that MORPHS into the green success chip: fields
+			     collapse (grid-rows 1fr->0fr), colours cross-fade to emerald -->
+			<div
+				class="rounded-3xl border p-8 backdrop-blur-sm transition-[background-color,border-color] duration-500 {status === 'success'
+					? 'border-emerald-400/30 bg-emerald-400/10'
+					: 'border-white/10 bg-white/5'}"
+			>
+				<div class="grid transition-[grid-template-rows] duration-500 ease-out {status === 'success' ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'}">
+					<div class="overflow-hidden">
+						<div class="flex flex-col gap-4 {status === 'success' ? 'pointer-events-none' : ''}">
+							<input
+								name="name"
+								required
+								placeholder={i18n.t.contact.namePh}
+								aria-label={i18n.t.contact.name}
+								class="w-full rounded-xl border border-white/10 bg-ink-soft px-5 py-3.5 text-white outline-none transition-colors placeholder:text-slate-500 focus:border-accent"
+							/>
+							<input
+								name="contact"
+								required
+								bind:value={contactValue}
+								placeholder={i18n.t.contact.emailPh}
+								aria-label={i18n.t.contact.email}
+								class="w-full rounded-xl border border-white/10 bg-ink-soft px-5 py-3.5 text-white outline-none transition-colors placeholder:text-slate-500 focus:border-accent"
+							/>
+							<button
+								type="submit"
+								disabled={status === 'sending'}
+								class="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 font-semibold text-white transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60"
+							>
+								{status === 'sending' ? i18n.t.contact.sending : i18n.t.contact.submit}
+								{#if status !== 'sending'}<Icon name="arrow" size={18} />{/if}
+							</button>
 
-					{#if status === 'error'}
-						<p class="text-sm text-rose-300">{errorText()}</p>
-					{/if}
+							{#if status === 'error'}
+								<p class="text-sm text-rose-300">{errorText()}</p>
+							{/if}
+							<!-- keeps the collapsing block from clipping the button shadow -->
+							<div class="h-px"></div>
+						</div>
+					</div>
 				</div>
 
-				<!-- Honeypot: bots fill this, humans never see it. -->
-				<input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-				<!-- Time-trap token: proves the form was rendered by us, >=3s ago. -->
-				<input type="hidden" name="form_token" value={token} />
-			</form>
-		{/if}
+				{#if status === 'success'}
+					<div class="success-in flex items-center justify-center gap-3 text-emerald-200">
+						<Icon name="check" size={22} />
+						<p>{i18n.t.contact.success}</p>
+					</div>
+				{/if}
+			</div>
+
+			<!-- Honeypot: bots fill this, humans never see it. -->
+			<input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+			<!-- Time-trap token: proves the form was rendered by us, >=3s ago. -->
+			<input type="hidden" name="form_token" value={token} />
+		</form>
 	</div>
 </section>

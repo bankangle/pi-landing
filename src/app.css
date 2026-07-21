@@ -302,6 +302,13 @@ a[href^='tel:'],
    transition must not fight it — fade only. */
 .plx.reveal { transition-property: opacity; }
 
+/* Success chip content: appears once the form has collapsed into the chip */
+.success-in { animation: success-in 0.45s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes success-in {
+	from { opacity: 0; transform: translateY(8px) scale(0.97); }
+	to { opacity: 1; transform: none; }
+}
+
 /* Stylish rise variant: comes up from below out of focus, overshoots a touch
    and settles — used for the contact form. */
 .reveal.reveal-rise {
