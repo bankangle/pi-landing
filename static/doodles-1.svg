@@ -4,7 +4,11 @@
 		<g id="barcode"><path d="M-12 -10 v20 M-7 -10 v14 M-2 -10 v20 M3 -10 v12 M8 -10 v20 M12 -10 v16"/></g>
 		<g id="tag"><path d="M-12 -2 L2 -14 L14 -2 L2 12 Z"/><circle cx="2" cy="-6" r="2"/></g>
 		<g id="box"><path d="M-12 -6 L0 -12 L12 -6 L12 8 L0 14 L-12 8 Z M-12 -6 L0 0 L12 -6 M0 0 V14"/></g>
-		<g id="chart"><path d="M-14 -12 V12 H14"/><path d="M-8 12 V2 M-2 12 V-4 M4 12 V6 M10 12 V-8"/></g>
+		<g id="chart"><path d="M-14 -12 V12 H14"/>
+			<path d="M-8 12 V2" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;0;0;1;1" keyTimes="0;0.1;0.86;0.94;1" dur="9s" repeatCount="indefinite"/></path>
+			<path d="M-2 12 V-4" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;1;0;0;1;1" keyTimes="0;0.07;0.18;0.86;0.94;1" dur="9s" repeatCount="indefinite"/></path>
+			<path d="M4 12 V6" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;1;0;0;1;1" keyTimes="0;0.14;0.25;0.86;0.94;1" dur="9s" repeatCount="indefinite"/></path>
+			<path d="M10 12 V-8" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;1;0;0;1;1" keyTimes="0;0.21;0.33;0.86;0.94;1" dur="9s" repeatCount="indefinite"/></path></g>
 		<g id="clipboard"><rect x="-10" y="-14" width="20" height="28" rx="2"/><rect x="-4" y="-17" width="8" height="5" rx="1"/>
 			<path d="M-6 -4 l2 2 l4 -4"><animate attributeName="opacity" values="0;0;1;1;1;0" keyTimes="0;0.15;0.25;0.85;0.95;1" dur="9s" repeatCount="indefinite"/></path>
 			<path d="M-6 4 l2 2 l4 -4"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.4;0.5;0.9;1" dur="9s" repeatCount="indefinite"/></path></g>
@@ -25,24 +29,37 @@
 		<g id="plus"><path d="M-4 0 h8 M0 -4 v8"/></g>
 		<g id="star"><g><animate attributeName="opacity" values="0.4;1;0.4" dur="6.5s" repeatCount="indefinite"/><path d="M0 -8 L2.2 -2.5 L8 -2.2 L3.4 1.4 L5 7 L0 3.6 L-5 7 L-3.4 1.4 L-8 -2.2 L-2.2 -2.5 Z"/></g></g>
 		<g id="ticket"><rect x="-14" y="-8" width="28" height="16" rx="2"/><path d="M0 -6 v2 M0 -1 v2 M0 4 v2"/></g>
-		<g id="pie"><circle r="11"/><path d="M0 0 L0 -11"/><path d="M0 0 L9 6"><animateTransform attributeName="transform" type="rotate" values="0;360" dur="18s" repeatCount="indefinite"/></path></g>
-		<g id="linechart"><path d="M-13 -10 V10 H13"/><path d="M-9 6 L-3 -2 L3 2 L10 -7"/><circle cx="10" cy="-7" r="1.4"/></g>
-		<g id="phone"><rect x="-7" y="-13" width="14" height="26" rx="3"/><path d="M-3 -10 h6 M-2 10 h4"/></g>
-		<g id="laptop"><rect x="-11" y="-10" width="22" height="14" rx="1.5"/><path d="M-15 8 h30 l-3 -4 h-24 z"/></g>
+		<g id="pie"><circle r="11" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes="0;0.3;1" dur="12s" repeatCount="indefinite"/></circle>
+			<path d="M0 0 L0 -11"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.3;0.35;1" dur="12s" repeatCount="indefinite"/></path>
+			<path d="M0 0 L9 6"><animateTransform attributeName="transform" type="rotate" values="0;360" dur="18s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.3;0.35;1" dur="12s" repeatCount="indefinite"/></path></g>
+		<g id="linechart"><path d="M-13 -10 V10 H13"/>
+			<path d="M-9 6 L-3 -2 L3 2 L10 -7" pathLength="1" stroke-dasharray="1"><animate attributeName="stroke-dashoffset" values="1;0;0;1" keyTimes="0;0.22;0.9;1" dur="10s" repeatCount="indefinite"/></path>
+			<circle cx="10" cy="-7" r="1.4"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.22;0.27;0.9;1" dur="10s" repeatCount="indefinite"/></circle></g>
+		<g id="phone"><rect x="-7" y="-13" width="14" height="26" rx="3"/><path d="M-3 -10 h6 M-2 10 h4"/>
+			<circle cx="4" cy="-9" r="1.8" fill="#6b7cc4" stroke="none"><animate attributeName="opacity" values="0;1;0.2;1;0;0" keyTimes="0;0.05;0.1;0.15;0.22;1" dur="7s" repeatCount="indefinite"/></circle></g>
+		<g id="laptop"><rect x="-11" y="-10" width="22" height="14" rx="1.5"/><path d="M-15 8 h30 l-3 -4 h-24 z"/>
+			<circle cx="-3" cy="-3" r="1" fill="#6b7cc4" stroke="none"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.2s" repeatCount="indefinite"/></circle>
+			<circle cx="0" cy="-3" r="1" fill="#6b7cc4" stroke="none"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.2s" begin="0.25s" repeatCount="indefinite"/></circle>
+			<circle cx="3" cy="-3" r="1" fill="#6b7cc4" stroke="none"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.2s" begin="0.5s" repeatCount="indefinite"/></circle></g>
 		<g id="pen"><path d="M-12 10 L5 -7 l6 6 L-6 16 Z M5 -7 l7 -7 M-12 10 l-2 6 6 -2"/></g>
 		<g id="pencil"><path d="M-12 10 L6 -8 l4 4 L-8 14 Z M-12 10 l-4 8 8 -4 M8 -6 l3 -3"/></g>
 		<g id="fish"><g><animateTransform attributeName="transform" type="translate" values="0 0;12 -3;0 0;-9 3;0 0" dur="13s" repeatCount="indefinite" additive="sum"/>
 			<path d="M-9 0 c4 -7 14 -7 18 0 c-4 7 -14 7 -18 0 z"/><circle cx="4" cy="-1.5" r="0.9" fill="#6b7cc4" stroke="none"/>
 			<path d="M-9 0 l-6 -5 v10 z"><animateTransform attributeName="transform" type="rotate" values="-12 -9 0;12 -9 0;-12 -9 0" dur="1.7s" repeatCount="indefinite"/></path></g></g>
+		<g id="book"><path d="M-14 -8 c5 -3 9 -3 14 0 c5 -3 9 -3 14 0 V8 c-5 -3 -9 -3 -14 0 c-5 3 -9 3 -14 0 Z"/><path d="M0 -8 V8"/>
+			<path d="M0 -8 c5 -3 9 -3 13 0 V7 c-4 -3 -8 -3 -13 0 Z" fill="rgba(107,124,196,0.10)"><animateTransform attributeName="transform" type="scale" values="1 1;1 1;0.06 1;-1 1;-1 1;0.06 1;1 1" keyTimes="0;0.3;0.42;0.5;0.72;0.82;1" dur="11s" repeatCount="indefinite"/></path></g>
 	</defs>
 
-	<use href="#cart" transform="translate(198 498) rotate(8)"/>
-	<use href="#box" transform="translate(468 271) rotate(-13)"/>
-	<use href="#hanger" transform="translate(91 319) rotate(5)"/>
-	<use href="#stopwatch" transform="translate(405 514) rotate(5)"/>
-	<use href="#plane" transform="translate(505 146) rotate(-8)"/>
-	<use href="#pie" transform="translate(401 127) rotate(3)"/>
-	<use href="#laptop" transform="translate(296 508) rotate(11)"/>
-	<use href="#fish" transform="translate(477 45) rotate(5)"/>
-	<use href="#star" transform="translate(413 417) rotate(11) scale(.8)"/>
+	<use href="#chart" transform="translate(197 63) rotate(-7)"/>
+	<use href="#linechart" transform="translate(437 92) rotate(-9)"/>
+	<use href="#tag" transform="translate(321 103) rotate(-9)"/>
+	<use href="#hanger" transform="translate(94 255) rotate(18)"/>
+	<use href="#stopwatch" transform="translate(92 156) rotate(-1)"/>
+	<use href="#plane" transform="translate(430 190) rotate(-7)"/>
+	<use href="#phone" transform="translate(507 435) rotate(-5)"/>
+	<use href="#pencil" transform="translate(300 254) rotate(2)"/>
+	<use href="#linechart" transform="translate(516 267) rotate(7)"/>
+	<use href="#pie" transform="translate(71 511) rotate(3)"/>
+	<use href="#cart" transform="translate(162 130) rotate(-9)"/>
+	<use href="#star" transform="translate(43 310) rotate(-3) scale(.8)"/>
 </svg>
