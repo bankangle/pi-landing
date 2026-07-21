@@ -52,10 +52,10 @@
 							const ad = Math.abs(d);
 							const w = el.offsetWidth || 600;
 							gsap.set(el, {
-								x: -Math.sign(d) * Math.min(ad, 1) * w * 0.38, // tuck under the active card
-								scale: 1 - 0.08 * Math.min(ad, 1.3),
+								x: -Math.sign(d) * Math.min(ad, 1) * w * 0.42, // tuck under the active card
+								scale: 1 - 0.12 * Math.min(ad, 1.3),
 								zIndex: 100 - Math.round(ad * 10),
-								opacity: 1 - 0.35 * Math.min(ad, 1),
+								opacity: 1 - 0.3 * Math.min(ad, 1),
 								transformOrigin: 'center center'
 							});
 						});
@@ -129,9 +129,9 @@
 							: ''}
 					>
 						<article
-							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/15 *:relative *:z-10 {horizontal
-								? 'h-full p-8'
-								: ''}"
+							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 *:relative *:z-10 {horizontal
+								? 'h-full bg-[#111b31] p-8 shadow-2xl shadow-black/60'
+								: 'bg-white/5 hover:shadow-2xl hover:shadow-accent/15'}"
 							use:spotlight
 						>
 							{#if horizontal}
