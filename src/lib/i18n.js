@@ -21,7 +21,7 @@ export const dict = {
 		meta: {
 			title: 'pi-retail | Быстрые победы для вашего бизнеса',
 			description:
-				'pi-retail — консалтинг и разработка ПО для повышения эффективности процессов в ритейле. 20+ лет опыта, 30+ проектов, измеримый результат «под ключ».'
+				'pi-retail — консалтинг, ИТ-скаутинг и разработка ПО для повышения эффективности процессов в ритейле. 20+ лет опыта, 30+ проектов, измеримый результат «под ключ».'
 		},
 		nav: { about: 'О нас', services: 'Услуги', products: 'Продукты', projects: 'Проекты', contact: 'Контакты', cta: 'Написать нам' },
 		hero: {
@@ -215,7 +215,7 @@ export const dict = {
 		meta: {
 			title: 'pi-retail — fast wins for your business',
 			description:
-				'pi-retail — consulting and software development for process efficiency in retail. 20+ years of experience, 30+ projects, measurable turnkey results.'
+				'pi-retail — consulting, IT scouting and software development for process efficiency in retail. 20+ years of experience, 30+ projects, measurable turnkey results.'
 		},
 		nav: { about: 'About', services: 'Services', products: 'Products', projects: 'Projects', contact: 'Contact', cta: 'Get in touch' },
 		hero: {
