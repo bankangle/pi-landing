@@ -35,26 +35,13 @@
 			<path d="M-9 0 c4 -7 14 -7 18 0 c-4 7 -14 7 -18 0 z"/><circle cx="4" cy="-1.5" r="0.9" fill="#6b7cc4" stroke="none"/>
 			<path d="M-9 0 l-6 -5 v10 z"><animateTransform attributeName="transform" type="rotate" values="-12 -9 0;12 -9 0;-12 -9 0" dur="1.7s" repeatCount="indefinite"/></path></g></g>
 	</defs>
-	<use href="#linechart" transform="translate(75 55) rotate(8)"/>
-	<use href="#pencil" transform="translate(215 72) rotate(15)"/>
-	<use href="#star" transform="translate(355 46) scale(.7)"/>
-	<use href="#truck" transform="translate(495 62) rotate(-5)"/>
-	<use href="#ticket" transform="translate(145 158) rotate(-14)"/>
-	<use href="#phone" transform="translate(285 162) rotate(10)"/>
-	<use href="#pie" transform="translate(425 168)"/>
-	<use href="#sparkle" transform="translate(38 222) scale(.8)"/>
-	<use href="#pen" transform="translate(95 268) rotate(-15)"/>
-	<use href="#bulb" transform="translate(235 258) rotate(10)"/>
-	<use href="#clipboard" transform="translate(375 268) rotate(-8)"/>
-	<use href="#barcode" transform="translate(515 272) rotate(-6)"/>
-	<use href="#laptop" transform="translate(165 372) rotate(6)"/>
-	<use href="#fish" transform="translate(305 362) scale(-1 1) rotate(3)"/>
-	<use href="#tag" transform="translate(445 378) rotate(12)"/>
-	<use href="#plane" transform="translate(62 432) rotate(-12) scale(.9)"/>
-	<use href="#box" transform="translate(342 472) rotate(-8)"/>
-	<use href="#sparkle" transform="translate(482 462) scale(.8)"/>
-	<use href="#plus" transform="translate(272 522)"/>
-	<text x="128" y="528" font-family="Georgia, serif" font-size="18" fill="#6b7cc4" stroke="none">π</text>
-	<circle cx="412" cy="526" r="1.6"/>
-	<circle cx="530" cy="520" r="1.6"/>
+
+	<use href="#tag" transform="translate(230 133) rotate(9)"/>
+	<use href="#clipboard" transform="translate(267 320) rotate(3)"/>
+	<use href="#camera" transform="translate(162 242) rotate(16)"/>
+	<use href="#coffee" transform="translate(326 201) rotate(17)"/>
+	<use href="#ticket" transform="translate(323 399) rotate(2)"/>
+	<use href="#phone" transform="translate(185 44) rotate(-9)"/>
+	<use href="#pencil" transform="translate(509 505) rotate(-10)"/>
+	<use href="#plane" transform="translate(44 402) rotate(-16)"/>
 </svg>

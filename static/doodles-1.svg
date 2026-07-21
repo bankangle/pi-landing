@@ -35,25 +35,14 @@
 			<path d="M-9 0 c4 -7 14 -7 18 0 c-4 7 -14 7 -18 0 z"/><circle cx="4" cy="-1.5" r="0.9" fill="#6b7cc4" stroke="none"/>
 			<path d="M-9 0 l-6 -5 v10 z"><animateTransform attributeName="transform" type="rotate" values="-12 -9 0;12 -9 0;-12 -9 0" dur="1.7s" repeatCount="indefinite"/></path></g></g>
 	</defs>
-	<use href="#cart" transform="translate(70 70) rotate(-10)"/>
-	<use href="#sparkle" transform="translate(210 42)"/>
-	<use href="#barcode" transform="translate(350 62) rotate(8)"/>
-	<use href="#bulb" transform="translate(490 78) rotate(-8)"/>
-	<use href="#tag" transform="translate(140 162) rotate(15)"/>
-	<use href="#clipboard" transform="translate(280 176) rotate(8)"/>
-	<text x="415" y="152" font-family="Georgia, serif" font-size="18" fill="#6b7cc4" stroke="none" transform="rotate(10 415 148)">π</text>
-	<use href="#truck" transform="translate(62 252) rotate(5)"/>
-	<use href="#stopwatch" transform="translate(200 262) rotate(10)"/>
-	<use href="#pen" transform="translate(342 272) rotate(20)"/>
-	<use href="#star" transform="translate(482 256)"/>
-	<use href="#coffee" transform="translate(110 362) rotate(-8)"/>
-	<use href="#box" transform="translate(252 376) rotate(-10)"/>
-	<use href="#linechart" transform="translate(392 352) rotate(6)"/>
-	<use href="#plus" transform="translate(528 366)"/>
-	<use href="#fish" transform="translate(72 472) rotate(-4)"/>
-	<use href="#phone" transform="translate(212 482) rotate(-8)"/>
-	<use href="#sparkle" transform="translate(350 466) scale(.75)"/>
-	<use href="#laptop" transform="translate(490 482) rotate(6)"/>
-	<circle cx="300" cy="330" r="1.6"/>
-	<circle cx="35" cy="150" r="1.6"/>
+
+	<use href="#cart" transform="translate(198 498) rotate(8)"/>
+	<use href="#box" transform="translate(468 271) rotate(-13)"/>
+	<use href="#hanger" transform="translate(91 319) rotate(5)"/>
+	<use href="#stopwatch" transform="translate(405 514) rotate(5)"/>
+	<use href="#plane" transform="translate(505 146) rotate(-8)"/>
+	<use href="#pie" transform="translate(401 127) rotate(3)"/>
+	<use href="#laptop" transform="translate(296 508) rotate(11)"/>
+	<use href="#fish" transform="translate(477 45) rotate(5)"/>
+	<use href="#star" transform="translate(413 417) rotate(11) scale(.8)"/>
 </svg>

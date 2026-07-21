@@ -15,6 +15,8 @@
 	let track = $state();
 	let horizontal = $state(false); // true while the GSAP layout is active
 	let progress = $state(0);
+	// card that is REALLY active: story pinned AND card within 30% of its slot
+	let live = $state(-1);
 	/** @type {HTMLElement[]} */
 	let panels = [];
 
@@ -68,8 +70,10 @@
 					// Deck effect: every card's shift/scale/depth is a continuous
 					// function of its distance to the centre, so all size changes
 					// animate smoothly with the scroll — nothing snaps by class.
+					let storyActive = false;
 					const deck = (p) => {
 						const fi = p * (n() - 1);
+						live = storyActive && Math.abs(fi - Math.round(fi)) < 0.3 ? Math.round(fi) : -1;
 						panels.forEach((el, k) => {
 							if (!el) return;
 							const d = k - fi;
@@ -112,7 +116,12 @@
 							end: () => '+=' + dist(),
 							pin: true,
 							scrub: sc,
+							refreshPriority: 1, // recompute before departure, which reads our .end
 							invalidateOnRefresh: true,
+							onToggle: (st) => {
+								storyActive = st.isActive;
+								deck(st.progress);
+							},
 							onUpdate: (st) => {
 								progress = st.progress;
 								deck(st.progress);
@@ -122,7 +131,10 @@
 						}
 					});
 					// departure: mirror of the approach — after the story releases,
-					// the deck keeps sliding left while the section scrolls away
+					// the deck keeps sliding left while the section scrolls away.
+					// NB: 'bottom bottom' on a PINNED element resolves to the pin
+					// START (layout box sits at the spacer top), so we anchor to the
+					// story trigger's actual end as absolute scroll positions.
 					departure = gsap.fromTo(
 						track,
 						{ x: () => -dist() },
@@ -131,9 +143,8 @@
 							ease: 'none',
 							immediateRender: false,
 							scrollTrigger: {
-								trigger: pinWrap,
-								start: 'bottom bottom',
-								end: 'bottom top',
+								start: () => tween?.scrollTrigger?.end ?? 0,
+								end: () => (tween?.scrollTrigger?.end ?? 0) + window.innerHeight,
 								scrub: sc,
 								invalidateOnRefresh: true
 							}
@@ -212,13 +223,13 @@
 							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 *:relative *:z-10 {horizontal
 								? 'h-full bg-[#111b31] p-8 shadow-2xl shadow-black/60'
 								: 'bg-white/5 hover:shadow-2xl hover:shadow-accent/15'}"
-							class:is-live={horizontal && i === current - 1}
+							class:is-live={horizontal && i === live}
 							use:spotlight
 						>
 							{#if horizontal}
 								<!-- active card's number glows brighter -->
 								<span
-									class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none transition-colors duration-500 {i === current - 1
+									class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none transition-colors duration-500 {i === live
 										? 'text-white/20'
 										: 'text-white/5'}"
 									aria-hidden="true"

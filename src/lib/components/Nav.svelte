@@ -9,6 +9,29 @@
 	let open = $state(false);
 	let activeId = $state('');
 
+	// sliding underline: one indicator glides to the active link
+	let linksBox = $state();
+	/** @type {HTMLElement[]} */
+	let linkEls = [];
+	let ind = $state({ left: 0, width: 0 });
+
+	$effect(() => {
+		const idx = links.findIndex((l) => l.href.slice(1) === activeId);
+		const el = idx >= 0 ? linkEls[idx] : null;
+		if (!el || !linksBox) {
+			ind = { left: 0, width: 0 };
+			return;
+		}
+		const measure = () => {
+			const b = linksBox.getBoundingClientRect();
+			const r = el.getBoundingClientRect();
+			ind = { left: r.left - b.left, width: r.width };
+		};
+		measure();
+		window.addEventListener('resize', measure);
+		return () => window.removeEventListener('resize', measure);
+	});
+
 	function onScroll() {
 		scrolled = window.scrollY > 12;
 	}
@@ -50,19 +73,22 @@
 			<Logo size={30} class="text-white" />
 		</a>
 
-		<div class="hidden items-center gap-8 md:flex">
-			{#each links as l}
+		<div bind:this={linksBox} class="relative hidden items-center gap-8 md:flex">
+			{#each links as l, li}
 				<a
+					bind:this={linkEls[li]}
 					href={l.href}
-					class="relative text-sm transition-colors hover:text-white
+					class="text-sm transition-colors hover:text-white
 						{activeId === l.href.slice(1) ? 'text-accent' : 'text-slate-300'}"
 				>
 					{i18n.t.nav[l.key]}
-					{#if activeId === l.href.slice(1)}
-						<span class="absolute -bottom-1.5 left-0 h-0.5 w-full rounded-full bg-accent"></span>
-					{/if}
 				</a>
 			{/each}
+			<!-- one underline that GLIDES between sections -->
+			<span
+				class="pointer-events-none absolute -bottom-1.5 h-0.5 rounded-full bg-accent transition-[left,width,opacity] duration-300 ease-out"
+				style="left: {ind.left}px; width: {ind.width}px; opacity: {ind.width ? 1 : 0}"
+			></span>
 		</div>
 
 		<div class="flex items-center gap-3">

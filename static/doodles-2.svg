@@ -35,26 +35,13 @@
 			<path d="M-9 0 c4 -7 14 -7 18 0 c-4 7 -14 7 -18 0 z"/><circle cx="4" cy="-1.5" r="0.9" fill="#6b7cc4" stroke="none"/>
 			<path d="M-9 0 l-6 -5 v10 z"><animateTransform attributeName="transform" type="rotate" values="-12 -9 0;12 -9 0;-12 -9 0" dur="1.7s" repeatCount="indefinite"/></path></g></g>
 	</defs>
-	<use href="#pie" transform="translate(120 48)"/>
-	<use href="#plane" transform="translate(262 74) rotate(14)"/>
-	<use href="#ticket" transform="translate(402 52) rotate(12)"/>
-	<use href="#pencil" transform="translate(522 96) rotate(15)"/>
-	<use href="#chart" transform="translate(58 142) rotate(-6)"/>
-	<use href="#hanger" transform="translate(198 152) rotate(-6)"/>
-	<use href="#camera" transform="translate(338 164) rotate(-10)"/>
-	<use href="#star" transform="translate(478 172) scale(.8)"/>
-	<use href="#rfid" transform="translate(38 262) rotate(-10)"/>
-	<use href="#sparkle" transform="translate(172 274) scale(.85)"/>
-	<use href="#box" transform="translate(312 284) rotate(6)"/>
-	<text x="450" y="292" font-family="Georgia, serif" font-size="18" fill="#6b7cc4" stroke="none" transform="rotate(-8 450 288)">π</text>
-	<use href="#laptop" transform="translate(100 382) rotate(-8)"/>
-	<use href="#sparkle" transform="translate(242 392) scale(.7)"/>
-	<use href="#tag" transform="translate(382 372) rotate(-18)"/>
-	<use href="#coffee" transform="translate(522 388) rotate(5)"/>
-	<use href="#cart" transform="translate(62 482) rotate(8)"/>
-	<use href="#plus" transform="translate(202 492) rotate(15)"/>
-	<use href="#stopwatch" transform="translate(342 482) rotate(-8)"/>
-	<use href="#ticket" transform="translate(482 472) rotate(-8)"/>
-	<circle cx="530" cy="230" r="1.6"/>
-	<circle cx="140" cy="330" r="1.6"/>
+
+	<use href="#barcode" transform="translate(86 485) rotate(-15)"/>
+	<use href="#chart" transform="translate(313 64) rotate(-12)"/>
+	<use href="#rfid" transform="translate(508 394) rotate(-8)"/>
+	<use href="#truck" transform="translate(68 62) rotate(-15)"/>
+	<use href="#bulb" transform="translate(49 193) rotate(-8)"/>
+	<use href="#linechart" transform="translate(203 403) rotate(-12)"/>
+	<use href="#pen" transform="translate(392 327) rotate(10)"/>
+	<use href="#fish" transform="translate(135 146) rotate(9)"/>
 </svg>

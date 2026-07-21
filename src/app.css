@@ -225,21 +225,21 @@ html {
 .dl3 { background-image: url('/doodles-3.svg'); animation: wander3 41s ease-in-out infinite alternate; }
 @keyframes wander1 {
 	0% { transform: translate(0, 0); }
-	30% { transform: translate(16px, -12px); }
-	60% { transform: translate(-8px, 14px); }
-	100% { transform: translate(10px, 6px); }
+	30% { transform: translate(10px, -8px); }
+	60% { transform: translate(-6px, 9px); }
+	100% { transform: translate(7px, 4px); }
 }
 @keyframes wander2 {
 	0% { transform: translate(0, 0); }
-	35% { transform: translate(-14px, 10px); }
-	70% { transform: translate(12px, 16px); }
-	100% { transform: translate(-10px, -12px); }
+	35% { transform: translate(-9px, 7px); }
+	70% { transform: translate(8px, 10px); }
+	100% { transform: translate(-7px, -8px); }
 }
 @keyframes wander3 {
 	0% { transform: translate(0, 0); }
-	40% { transform: translate(10px, 14px); }
-	75% { transform: translate(-16px, -8px); }
-	100% { transform: translate(6px, -14px); }
+	40% { transform: translate(7px, 9px); }
+	75% { transform: translate(-10px, -6px); }
+	100% { transform: translate(4px, -9px); }
 }
 
 /* Bullet "ignition": when a deck card becomes active, its bullet DOTS flash
@@ -291,12 +291,29 @@ a[href^='tel:'],
 .reveal {
 	opacity: 0;
 	transform: translate(var(--rx, 0px), var(--ry, 24px));
-	transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+	transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 	will-change: opacity, transform;
 }
 .reveal.is-visible {
 	opacity: 1;
 	transform: none;
+}
+/* Stylish rise variant: comes up from below out of focus, overshoots a touch
+   and settles — used for the contact form. */
+.reveal.reveal-rise {
+	transform: translateY(48px) scale(0.96);
+	filter: blur(10px) saturate(0.5);
+	transition-duration: 0.9s;
+}
+.reveal.reveal-rise.is-visible {
+	transform: none;
+	filter: none;
+	animation: rise-settle 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes rise-settle {
+	0% { transform: translateY(48px) scale(0.96); }
+	70% { transform: translateY(-6px) scale(1.005); }
+	100% { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
 	.reveal {
