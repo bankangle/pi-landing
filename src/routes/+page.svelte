@@ -18,6 +18,10 @@
 	<meta property="og:title" content={i18n.t.meta.title} />
 	<meta property="og:description" content={i18n.t.meta.description} />
 	<meta property="og:type" content="website" />
+	<meta property="og:image" content="https://pi-retail.com/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <Nav />
