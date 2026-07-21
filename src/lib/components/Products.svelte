@@ -37,6 +37,7 @@
 				let killed = false;
 				let tween;
 				let approach;
+				let departure;
 				let cleanupExtra;
 				horizontal = true;
 				// let Svelte apply the horizontal layout before measuring
@@ -120,6 +121,24 @@
 							onRefresh: (st) => deck(st.progress)
 						}
 					});
+					// departure: mirror of the approach — after the story releases,
+					// the deck keeps sliding left while the section scrolls away
+					departure = gsap.fromTo(
+						track,
+						{ x: () => -dist() },
+						{
+							x: () => -(dist() + window.innerWidth * 0.55),
+							ease: 'none',
+							immediateRender: false,
+							scrollTrigger: {
+								trigger: pinWrap,
+								start: 'bottom bottom',
+								end: 'bottom top',
+								scrub: sc,
+								invalidateOnRefresh: true
+							}
+						}
+					);
 					deck(tween.scrollTrigger?.progress ?? 0);
 					const clearSnap = () => clearTimeout(snapT);
 					cleanupExtra = clearSnap;
@@ -129,6 +148,8 @@
 					cleanupExtra?.();
 					approach?.scrollTrigger?.kill();
 					approach?.kill();
+					departure?.scrollTrigger?.kill();
+					departure?.kill();
 					tween?.scrollTrigger?.kill();
 					tween?.kill();
 					gsap.set(track, { clearProps: 'all' });
@@ -145,9 +166,18 @@
 </script>
 
 <section id="products" class="relative scroll-mt-24 py-24 max-md:pb-12 {horizontal ? 'pb-0' : ''}">
-	<!-- telegram-chat-style doodle wallpaper for the whole section -->
-	<div class="doodle-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
-	<div bind:this={pinWrap} class={horizontal ? 'flex h-svh flex-col pt-24 [@media(max-height:56rem)]:pt-20' : ''}>
+	<!-- telegram-chat-style doodle wallpaper: 3 layers wandering independently -->
+	<div class="doodle-bg pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+		<div class="doodle-layer dl1"></div>
+		<div class="doodle-layer dl2"></div>
+		<div class="doodle-layer dl3"></div>
+	</div>
+	<div
+		bind:this={pinWrap}
+		class={horizontal
+			? 'flex h-svh flex-col pt-36 [@media(max-height:56rem)]:pt-24 [@media(max-height:47rem)]:pt-20'
+			: ''}
+	>
 		<!-- header: pinned on top with the same rhythm as other sections when
 		     height allows; tightens, then hides, as the viewport gets shorter -->
 		<div
@@ -182,33 +212,30 @@
 							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 *:relative *:z-10 {horizontal
 								? 'h-full bg-[#111b31] p-8 shadow-2xl shadow-black/60'
 								: 'bg-white/5 hover:shadow-2xl hover:shadow-accent/15'}"
+							class:is-live={horizontal && i === current - 1}
 							use:spotlight
 						>
 							{#if horizontal}
-								{#if i === current - 1}
-									<!-- split-flap: the top half of the digit falls into place on activation -->
-									{#key current}
-										<span class="flipnum pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none" aria-hidden="true">
-											<span class="fn-bottom text-white/10">{String(i + 1).padStart(2, '0')}</span>
-											<span class="fn-top text-white/10">{String(i + 1).padStart(2, '0')}</span>
-										</span>
-									{/key}
-								{:else}
-									<span class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none text-white/5">
-										{String(i + 1).padStart(2, '0')}
-									</span>
-								{/if}
+								<!-- active card's number glows brighter -->
+								<span
+									class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none transition-colors duration-500 {i === current - 1
+										? 'text-white/20'
+										: 'text-white/5'}"
+									aria-hidden="true"
+								>
+									{String(i + 1).padStart(2, '0')}
+								</span>
 							{/if}
 							<h3 class="text-xl font-semibold {horizontal ? 'md:text-2xl' : ''}">{p.title}</h3>
 							<ul class="mt-4 space-y-2.5">
 								{#each p.points as point, j}
 									{#if j === 0}
-										<li class="font-semibold leading-relaxed text-white">{point}</li>
+										<li class="p-li font-semibold leading-relaxed text-white" style="--bi:{j}">{point}</li>
 									{:else if j === 1}
-										<li class="text-xs leading-relaxed text-slate-500">{point}</li>
+										<li class="p-li text-xs leading-relaxed text-slate-500" style="--bi:{j}">{point}</li>
 									{:else}
-										<li class="flex items-start gap-2.5 text-sm leading-relaxed text-slate-400">
-											<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
+										<li class="p-li flex items-start gap-2.5 text-sm leading-relaxed text-slate-400" style="--bi:{j}">
+											<span class="p-dot mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
 											{point}
 										</li>
 									{/if}
