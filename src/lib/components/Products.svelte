@@ -251,15 +251,15 @@
 			<!-- note + progress: pinned at the bottom for the whole story -->
 			<div class="mx-auto flex w-full max-w-4xl shrink-0 flex-col items-center gap-2 px-6 pb-10 pt-4 [@media(max-height:56rem)]:pb-5">
 				<p
-					class="select-none rounded-2xl border border-white/10 bg-[#0e1727]/90 px-6 py-2.5 text-center text-xs italic leading-relaxed text-slate-400 backdrop-blur-sm [@media(max-height:47rem)]:hidden {progress > 0.95
-						? 'note-on'
+					class="select-none text-center text-xs leading-relaxed text-slate-400 [@media(max-height:47rem)]:hidden {progress > 0.98
+						? 'note-shimmer'
 						: ''}"
 				>
 					{i18n.t.products.note}
 				</p>
 			</div>
 		{:else}
-			<p class="note-glow mx-auto mt-10 w-fit max-w-3xl rounded-2xl border border-white/10 bg-[#0e1727]/90 px-6 py-3 text-center text-sm italic leading-relaxed text-slate-400 backdrop-blur-sm" use:reveal>
+			<p class="note-glow mx-auto mt-10 max-w-3xl px-6 text-center text-sm leading-relaxed text-slate-400" use:reveal>
 				{i18n.t.products.note}
 			</p>
 		{/if}

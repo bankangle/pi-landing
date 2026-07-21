@@ -41,15 +41,22 @@
 }
 .hint-bounce { animation: hint-bounce 1.8s ease-in-out infinite; }
 
-/* Note "switch-on" highlight: text glows up in accent, then settles. */
-@keyframes note-on {
-	0% { color: inherit; text-shadow: none; }
-	55% { color: #e2e8f0; text-shadow: 0 0 24px rgba(29, 78, 216, 0.9), 0 0 6px rgba(29, 78, 216, 0.6); }
-	100% { color: #cbd5e1; text-shadow: 0 0 12px rgba(29, 78, 216, 0.35); }
+/* Note shimmer: a light sweep runs across the text exactly when its turn
+   comes in the scroll story (or on reveal in stacked mode). */
+.note-shimmer,
+.note-glow.is-visible {
+	background: linear-gradient(100deg, #94a3b8 25%, #ffffff 50%, #94a3b8 75%);
+	background-size: 240% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: shimmer 1.5s ease forwards;
 }
-.note-on { animation: note-on 1.1s ease forwards; }
-/* vertical mode: fires when the reveal action marks the note visible */
-.note-glow.is-visible { animation: note-on 1.1s ease 0.35s forwards; }
+.note-glow.is-visible { animation-delay: 0.3s; }
+@keyframes shimmer {
+	from { background-position: 200% 0; }
+	to { background-position: -60% 0; }
+}
 
 
 .anim-blob-a { animation: blob-a 16s ease-in-out infinite; will-change: transform, opacity; }
@@ -235,19 +242,12 @@ html {
 	100% { transform: translate(6px, -14px); }
 }
 
-/* Bullet "ignition": when a deck card becomes active, its rows light up one
-   after another; the dots flash accent-bright, then settle to a soft glow. */
-.is-live .p-li {
-	animation: li-on 0.45s ease-out both;
-	animation-delay: calc(var(--bi) * 80ms);
-}
+/* Bullet "ignition": when a deck card becomes active, its bullet DOTS flash
+   accent-bright one after another, then settle to a soft glow. Text itself
+   never animates — only markers/infographics. */
 .is-live .p-dot {
 	animation: dot-on 0.6s ease-out both;
 	animation-delay: calc(var(--bi) * 80ms + 120ms);
-}
-@keyframes li-on {
-	from { opacity: 0.25; transform: translateX(10px); }
-	to { opacity: 1; transform: none; }
 }
 @keyframes dot-on {
 	0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
@@ -327,10 +327,13 @@ a[href^='tel:'],
 	.beam:hover,
 	.beam.is-active { --br: 0px; }
 	.hint-bounce { animation: none; }
-	.note-on,
-	.note-glow.is-visible { animation: none; }
+	.note-shimmer,
+	.note-glow.is-visible {
+		animation: none;
+		background: none;
+		color: rgb(148 163 184);
+	}
 	.dl1, .dl2, .dl3 { animation: none; }
-	.is-live .p-li,
 	.is-live .p-dot { animation: none; }
 }
 
