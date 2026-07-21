@@ -15,8 +15,9 @@
 	});
 	const py = $derived(reduce ? 0 : scrollY * 0.15);
 	const fade = $derived(reduce ? 1 : Math.max(0, 1 - scrollY / 600));
-	// depth: the background grid zooms in as you scroll out of the hero
-	const gridZoom = $derived(reduce ? 1 : 1 + Math.min(scrollY, 900) * 0.0005);
+	// depth: the background grid zooms in as you scroll out of the hero —
+	// uncapped, so it never freezes while the grid is still on screen
+	const gridZoom = $derived(reduce ? 1 : 1 + scrollY * 0.0005);
 </script>
 
 <svelte:window on:scroll={() => (scrollY = window.scrollY)} />
