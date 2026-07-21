@@ -3,6 +3,7 @@
 	import { useI18n } from '$lib/i18n-context.js';
 	import { countUp } from '$lib/anim.js';
 	import Ambient from './Ambient.svelte';
+	import Aurora from './Aurora.svelte';
 	import ScrollHint from './ScrollHint.svelte';
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
@@ -21,14 +22,17 @@
 
 <section id="top" class="relative flex min-h-svh flex-col justify-center overflow-hidden">
 	<Ambient grid />
+	<Aurora />
 
 	<div class="relative mx-auto w-full max-w-6xl px-6 py-28 sm:py-32">
 		<div class="mx-auto max-w-3xl text-center" style="transform: translateY({py}px); opacity: {fade}">
 			<h1 class="text-balance select-none text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
-				{i18n.t.hero.title}
+				{#each i18n.t.hero.title.split(' ') as w, wi}
+					<span class="hw" style="--d:{120 + wi * 95}ms"><span class="hwi">{w}</span></span>{' '}
+				{/each}
 			</h1>
 
-			<p class="mx-auto mt-6 max-w-2xl select-none text-pretty text-lg leading-relaxed text-slate-300">
+			<p class="hero-sub mx-auto mt-6 max-w-2xl select-none text-pretty text-lg leading-relaxed text-slate-300">
 				{i18n.t.hero.subtitle}
 			</p>
 
