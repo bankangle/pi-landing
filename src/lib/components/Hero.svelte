@@ -3,79 +3,29 @@
 	import { useI18n } from '$lib/i18n-context.js';
 	import { countUp } from '$lib/anim.js';
 	import Ambient from './Ambient.svelte';
-	import IntroReveal from './IntroReveal.svelte';
+	import Aurora from './Aurora.svelte';
 	import ScrollHint from './ScrollHint.svelte';
 	import Icon from './Icon.svelte';
 	const i18n = useI18n();
 
-	let sectionEl = $state();
-	let contentEl = $state();
-	let dive = $state(false); // desktop scroll-dive owns the transform
-
-	// Mobile fallback: the old soft drift-up + fade on scroll.
+	// Subtle parallax: the hero copy drifts up and fades as you scroll into the story.
 	let scrollY = $state(0);
 	let reduce = $state(false);
-	const py = $derived(reduce || dive ? 0 : scrollY * 0.15);
-	const fade = $derived(reduce || dive ? 1 : Math.max(0, 1 - scrollY / 600));
-
 	onMount(() => {
-		reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-		let ctx;
-		let cancelled = false;
-		(async () => {
-			const [{ gsap }, { ScrollTrigger }, { getLenis }] = await Promise.all([
-				import('gsap'),
-				import('gsap/ScrollTrigger'),
-				import('$lib/smooth-scroll.js')
-			]);
-			if (cancelled) return;
-			gsap.registerPlugin(ScrollTrigger);
-			ctx = gsap.matchMedia();
-			// Zoom-through dive: hero pins, the copy flies INTO the viewer and you
-			// pass "through" it into About; the grid zooms along for depth.
-			ctx.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-				dive = true;
-				gsap.set(contentEl, { transformOrigin: '50% 42%' });
-				const tl = gsap.timeline({
-					scrollTrigger: {
-						trigger: sectionEl,
-						start: 'top top',
-						end: '+=75%',
-						pin: true,
-						scrub: getLenis() ? true : 1,
-						invalidateOnRefresh: true
-					}
-				});
-				tl.to(contentEl, { scale: 4.6, autoAlpha: 0, ease: 'power1.in' }, 0)
-					.to('.ambient-grid', { scale: 1.6, ease: 'none' }, 0);
-				return () => {
-					tl.scrollTrigger?.kill();
-					tl.kill();
-					gsap.set([contentEl, '.ambient-grid'], { clearProps: 'all' });
-					dive = false;
-				};
-			});
-		})();
-		return () => {
-			cancelled = true;
-			ctx?.revert();
-		};
+		reduce = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 	});
+	const py = $derived(reduce ? 0 : scrollY * 0.15);
+	const fade = $derived(reduce ? 1 : Math.max(0, 1 - scrollY / 600));
 </script>
 
 <svelte:window on:scroll={() => (scrollY = window.scrollY)} />
 
-<IntroReveal />
-
-<section id="top" bind:this={sectionEl} class="relative flex min-h-svh flex-col justify-center overflow-hidden">
+<section id="top" class="relative flex min-h-svh flex-col justify-center overflow-hidden">
 	<Ambient grid />
+	<Aurora />
 
 	<div class="relative mx-auto w-full max-w-6xl px-6 py-28 sm:py-32">
-		<div
-			bind:this={contentEl}
-			class="mx-auto max-w-3xl text-center"
-			style={dive ? '' : `transform: translateY(${py}px); opacity: ${fade}`}
-		>
+		<div class="mx-auto max-w-3xl text-center" style="transform: translateY({py}px); opacity: {fade}">
 			<h1 class="text-balance select-none text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
 				{#each i18n.t.hero.title.split(' ') as w, wi}
 					<span class="hw" style="--d:{120 + wi * 95}ms"><span class="hwi">{w}</span></span>{' '}

@@ -70,10 +70,7 @@
 >
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 		<a href="#top" class="flex items-center gap-2 font-semibold tracking-tight">
-			<!-- intro match-cut lands the flying mark exactly here -->
-			<span id="nav-logo-slot" class="inline-flex transition-opacity duration-150">
-				<Logo size={30} class="text-white" />
-			</span>
+			<Logo size={30} class="text-white" />
 		</a>
 
 		<div bind:this={linksBox} class="relative hidden items-center gap-8 md:flex">
