@@ -36,6 +36,7 @@
 			ctx.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
 				let killed = false;
 				let tween;
+				let approach;
 				let cleanupExtra;
 				horizontal = true;
 				// let Svelte apply the horizontal layout before measuring
@@ -78,9 +79,28 @@
 							});
 						});
 					};
-					tween = gsap.to(track, {
+					// approach: the assembled deck rides in from the right while the
+					// section is still scrolling INTO view — motion never stands still
+					approach = gsap.fromTo(
+						track,
+						{ x: () => window.innerWidth * 0.55 },
+						{
+							x: 0,
+							ease: 'none',
+							immediateRender: true,
+							scrollTrigger: {
+								trigger: pinWrap,
+								start: 'top bottom',
+								end: 'top top',
+								scrub: 1,
+								invalidateOnRefresh: true
+							}
+						}
+					);
+					tween = gsap.fromTo(track, { x: 0 }, {
 						x: () => -dist(),
 						ease: 'none',
+						immediateRender: false,
 						scrollTrigger: {
 							trigger: pinWrap,
 							start: 'top top',
@@ -103,6 +123,8 @@
 				return () => {
 					killed = true;
 					cleanupExtra?.();
+					approach?.scrollTrigger?.kill();
+					approach?.kill();
 					tween?.scrollTrigger?.kill();
 					tween?.kill();
 					gsap.set(track, { clearProps: 'all' });
