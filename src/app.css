@@ -298,6 +298,10 @@ a[href^='tel:'],
 	opacity: 1;
 	transform: none;
 }
+/* Parallax-driven cards: gsap owns their transform every frame, so the reveal
+   transition must not fight it — fade only. */
+.plx.reveal { transition-property: opacity; }
+
 /* Stylish rise variant: comes up from below out of focus, overshoots a touch
    and settles — used for the contact form. */
 .reveal.reveal-rise {
