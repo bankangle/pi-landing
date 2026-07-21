@@ -31,6 +31,6 @@
 	<Services />
 	<Products />
 	<Projects />
-	<Contact token={data.formToken} />
+	<Contact />
 </main>
 <Footer />
