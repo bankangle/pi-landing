@@ -97,11 +97,12 @@
 </script>
 
 <section id="products" class="relative scroll-mt-24 py-24 max-md:pb-12 {horizontal ? 'pb-0' : ''}">
-	<div bind:this={pinWrap} class={horizontal ? 'flex h-svh flex-col pt-20' : ''}>
-		<!-- header: pinned on top for the whole story; steps aside on short screens -->
+	<div bind:this={pinWrap} class={horizontal ? 'flex h-svh flex-col pt-24 [@media(max-height:56rem)]:pt-20' : ''}>
+		<!-- header: pinned on top with the same rhythm as other sections when
+		     height allows; tightens, then hides, as the viewport gets shorter -->
 		<div
 			class="mx-auto px-6 text-center {horizontal
-				? 'mb-2 shrink-0 [@media(max-height:36rem)]:hidden'
+				? 'mb-14 shrink-0 [@media(max-height:56rem)]:mb-4 [@media(max-height:36rem)]:hidden'
 				: 'mb-14'}"
 			use:reveal
 		>
@@ -134,9 +135,19 @@
 							use:spotlight
 						>
 							{#if horizontal}
-								<span class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none text-white/5">
-									{String(i + 1).padStart(2, '0')}
-								</span>
+								{#if i === current - 1}
+									<!-- split-flap: the top half of the digit falls into place on activation -->
+									{#key current}
+										<span class="flipnum pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none" aria-hidden="true">
+											<span class="fn-bottom text-white/10">{String(i + 1).padStart(2, '0')}</span>
+											<span class="fn-top text-white/10">{String(i + 1).padStart(2, '0')}</span>
+										</span>
+									{/key}
+								{:else}
+									<span class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none text-white/5">
+										{String(i + 1).padStart(2, '0')}
+									</span>
+								{/if}
 							{/if}
 							<h3 class="text-xl font-semibold {horizontal ? 'md:text-2xl' : ''}">{p.title}</h3>
 							<ul class="mt-4 space-y-2.5">
@@ -161,7 +172,7 @@
 
 		{#if horizontal}
 			<!-- note + progress: pinned at the bottom for the whole story -->
-			<div class="mx-auto flex w-full max-w-4xl shrink-0 flex-col items-center gap-2 px-6 pb-5 pt-3">
+			<div class="mx-auto flex w-full max-w-4xl shrink-0 flex-col items-center gap-2 px-6 pb-10 pt-4 [@media(max-height:56rem)]:pb-5">
 				<p
 					class="select-none text-center text-xs italic leading-relaxed text-slate-500 [@media(max-height:47rem)]:hidden {progress > 0.95
 						? 'note-on'
