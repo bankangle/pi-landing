@@ -70,13 +70,17 @@
 			<!-- one container that MORPHS into the green success chip: fields
 			     collapse (grid-rows 1fr->0fr), colours cross-fade to emerald -->
 			<div
-				class="rounded-3xl border p-8 backdrop-blur-sm transition-[background-color,border-color] duration-500 {status === 'success'
+				class="relative rounded-3xl border p-8 backdrop-blur-sm transition-[background-color,border-color] duration-700 {status === 'success'
 					? 'border-emerald-400/30 bg-emerald-400/10'
 					: 'border-white/10 bg-white/5'}"
 			>
-				<div class="grid transition-[grid-template-rows] duration-500 ease-out {status === 'success' ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'}">
-					<div class="overflow-hidden">
-						<div class="flex flex-col gap-4 {status === 'success' ? 'pointer-events-none' : ''}">
+				<div
+					class="transition-[opacity,filter,transform] duration-500 ease-out {status === 'success'
+						? 'pointer-events-none scale-[0.985] opacity-0 blur-sm'
+						: ''}"
+				>
+					<div>
+						<div class="flex flex-col gap-4">
 							<input
 								name="name"
 								required
@@ -104,14 +108,13 @@
 							{#if status === 'error'}
 								<p class="text-sm text-rose-300">{errorText()}</p>
 							{/if}
-							<!-- keeps the collapsing block from clipping the button shadow -->
-							<div class="h-px"></div>
 						</div>
 					</div>
 				</div>
 
 				{#if status === 'success'}
-					<div class="success-in flex items-center justify-center gap-3 text-emerald-200">
+					<!-- overlays the same box: dimensions never change -->
+					<div class="success-in absolute inset-0 flex items-center justify-center gap-3 px-8 text-emerald-200">
 						<Icon name="check" size={22} />
 						<p>{i18n.t.contact.success}</p>
 					</div>

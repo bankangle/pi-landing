@@ -45,7 +45,7 @@
 				<ul class="mt-4 space-y-2.5">
 					{#each item.points as point}
 						<li class="flex items-start gap-2.5 text-sm leading-relaxed text-slate-400">
-							<span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
+							<span class="flex h-lh shrink-0 items-center"><span class="h-1 w-1 rounded-full bg-accent"></span></span>
 							{point}
 						</li>
 					{/each}

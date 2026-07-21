@@ -246,7 +246,7 @@
 										<li class="p-li text-xs leading-relaxed text-slate-500" style="--bi:{j}">{point}</li>
 									{:else}
 										<li class="p-li flex items-start gap-2.5 text-sm leading-relaxed text-slate-400" style="--bi:{j}">
-											<span class="p-dot mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
+											<span class="flex h-lh shrink-0 items-center"><span class="p-dot h-1 w-1 rounded-full bg-accent"></span></span>
 											{point}
 										</li>
 									{/if}

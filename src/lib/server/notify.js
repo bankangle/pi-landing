@@ -213,12 +213,15 @@ async function sendEmail(lead) {
 	return true;
 }
 
-/** @param {string} text */
+/** Max messenger (TamTam-style Bot API: chat_id goes in the QUERY string).
+ * @param {string} text */
 async function sendMax(text) {
-	const res = await fetch(`https://botapi.max.ru/messages?access_token=${env.MAX_BOT_TOKEN}`, {
+	const url = `https://botapi.max.ru/messages?access_token=${encodeURIComponent(env.MAX_BOT_TOKEN)}&chat_id=${encodeURIComponent(env.MAX_CHAT_ID)}`;
+	const res = await fetch(url, {
 		method: 'POST',
 		headers: { 'content-type': 'application/json' },
-		body: JSON.stringify({ chat_id: env.MAX_CHAT_ID, text })
+		body: JSON.stringify({ text }),
+		signal: AbortSignal.timeout(15_000)
 	});
 	if (!res.ok) {
 		console.error('[notify] max failed', res.status, await res.text().catch(() => ''));
