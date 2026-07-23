@@ -221,7 +221,7 @@
 					>
 						<article
 							class="spotlight beam relative flex w-full flex-col overflow-hidden rounded-2xl border border-white/10 p-7 transition-[border-color,box-shadow] duration-300 hover:border-accent/40 *:relative *:z-10 {horizontal
-								? 'h-full bg-[#111b31] p-8 shadow-2xl shadow-black/60'
+								? 'deck-card h-full bg-[#111b31] p-8 shadow-2xl shadow-black/60'
 								: 'bg-white/5 hover:shadow-2xl hover:shadow-accent/15'}"
 							class:is-live={horizontal && i === live}
 							use:spotlight
@@ -229,7 +229,7 @@
 							{#if horizontal}
 								<!-- active card's number glows brighter -->
 								<span
-									class="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none transition-colors duration-500 {i === live
+									class="deck-num pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none transition-colors duration-500 {i === live
 										? 'text-white/20'
 										: 'text-white/5'}"
 									aria-hidden="true"

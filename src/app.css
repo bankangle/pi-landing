@@ -198,6 +198,26 @@
 	pointer-events: none;
 }
 
+/* Deck cards on SHORT desktop viewports: the tallest card must always fit
+   between the pinned header and the note, so typography/padding compact in
+   two steps as the viewport height shrinks (wide laptops, devtools, etc.). */
+@media (min-width: 768px) and (max-height: 48rem) {
+	.deck-card { padding: 1.4rem 1.6rem; }
+	.deck-card h3 { font-size: 1.15rem; }
+	.deck-card ul { margin-top: 0.6rem; }
+	.deck-card ul > :not(:first-child) { margin-top: 0.45rem; }
+	.deck-card li { font-size: 0.8rem; line-height: 1.4; }
+	.deck-card li:first-child { font-size: 0.9rem; }
+	.deck-num { font-size: 4.5rem; top: -1rem; }
+}
+@media (min-width: 768px) and (max-height: 40rem) {
+	.deck-card { padding: 1rem 1.25rem; }
+	.deck-card h3 { font-size: 1rem; }
+	.deck-card li { font-size: 0.75rem; line-height: 1.35; }
+	.deck-card li:first-child { font-size: 0.82rem; }
+	.deck-num { font-size: 3.2rem; top: -0.5rem; }
+}
+
 /* Hide the horizontal scrollbar on the mobile Services carousel */
 .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .hide-scrollbar::-webkit-scrollbar { display: none; }
