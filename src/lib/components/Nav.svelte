@@ -64,10 +64,13 @@
 
 <svelte:window on:scroll={onScroll} />
 
-<header
-	class="fixed inset-x-0 top-0 z-50 transition-all duration-300
-		{scrolled ? 'border-b border-white/10 bg-ink/80 backdrop-blur-md' : 'border-b border-transparent'}"
->
+<header class="fixed inset-x-0 top-0 z-50">
+	<!-- Glass backdrop on its own layer, faded by opacity only. Toggling backdrop-filter
+	     itself can't animate — it snaps off mid-transition and the header re-rasterizes (blink). -->
+	<div
+		class="pointer-events-none absolute inset-0 -z-10 border-b border-white/10 bg-ink/80 backdrop-blur-md transition-opacity duration-300 will-change-[opacity]
+			{scrolled ? 'opacity-100' : 'opacity-0'}"
+	></div>
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 		<a href="#top" class="flex items-center gap-2 font-semibold tracking-tight">
 			<Logo size={30} class="text-white" />
