@@ -26,7 +26,13 @@
 	<Ambient grid />
 
 	<div class="relative mx-auto w-full max-w-6xl px-6 py-28 sm:py-32">
-		<div class="mx-auto max-w-3xl text-center" style="transform: translateY({py}px); opacity: {fade}">
+		<!-- will-change pins the copy to its own compositor layer for good: without it the
+		     browser drops/re-creates the layer whenever opacity hits 1 / transform hits 0
+		     (back at the top), re-rasterizing the text — a visible blink. -->
+		<div
+			class="mx-auto max-w-3xl text-center will-change-[transform,opacity]"
+			style="transform: translate3d(0, {py}px, 0); opacity: {fade}"
+		>
 			<h1 class="text-balance select-none text-4xl font-bold leading-[1.08] tracking-tight sm:text-6xl">
 				{#each i18n.t.hero.title.split(' ') as w, wi}
 					<span class="hw" style="--d:{120 + wi * 95}ms"><span class="hwi">{w}</span></span>{' '}
